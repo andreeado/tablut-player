@@ -1,0 +1,2 @@
+nov 23, 2024 7:59:46 PM it.unibo.ai.didattica.competition.tablut.domain.GameTablut <init>
+FINE: Inizio partita

@@ -20,6 +20,9 @@
         </copy>
     </target>
     
+    <target name="start" depends="clean,compile">
+    </target>
+
     <target name="server">
         <java classname="it.unibo.ai.didattica.competition.tablut.server.Server" fork="true">
             <classpath>
@@ -48,6 +51,24 @@
             <classpath>
                 <pathelement location="lib/gson-2.2.2.jar"/>
                 <pathelement location="lib/commons-cli-1.4.jar"/>
+                <pathelement location="build"/>
+            </classpath>
+        </java>
+    </target>
+
+    <target name="ALAwhite">
+        <java classname="it.unibo.ai.didattica.competition.tablut.client.ALAWhiteClient" fork="true">
+            <classpath>
+                <pathelement location="lib/gson-2.2.2.jar"/>
+                <pathelement location="build"/>
+            </classpath>
+        </java>
+    </target>
+
+    <target name="ALAblack">
+        <java classname="it.unibo.ai.didattica.competition.tablut.client.ALABlackClient" fork="true">
+            <classpath>
+                <pathelement location="lib/gson-2.2.2.jar"/>
                 <pathelement location="build"/>
             </classpath>
         </java>
@@ -91,7 +112,7 @@
             </classpath>
         </java>
     </target>
-	
+    
     <target name="humanblack">
         <java classname="it.unibo.ai.didattica.competition.tablut.client.TablutHumanBlackClient" fork="true">
             <classpath>
@@ -100,8 +121,7 @@
             </classpath>
         </java>
     </target>
-	
-
+    
     <target name="tester">
         <java classname="it.unibo.ai.didattica.competition.tablut.tester.Tester" fork="true">
             <classpath>
@@ -110,7 +130,5 @@
             </classpath>
         </java>
     </target>
-
-
 
 </project>
