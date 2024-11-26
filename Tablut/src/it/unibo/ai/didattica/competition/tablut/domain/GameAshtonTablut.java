@@ -43,6 +43,7 @@ public class GameAshtonTablut implements Game {
 	private List<String> citadels;
 	// private List<String> strangeCitadels;
 	private List<State> drawConditions;
+	private ActionValidator actionValidator;
 
 	public GameAshtonTablut(int repeated_moves_allowed, int cache_size, String logs_folder, String whiteName,
 			String blackName) {
@@ -83,7 +84,8 @@ public class GameAshtonTablut implements Game {
 		loggGame.fine("Inizio partita");
 		loggGame.fine("Stato:\n" + state.toString());
 		drawConditions = new ArrayList<State>();
-		this.citadels = new ArrayList<String>();
+		this.actionValidator = new TablutActionValidator(state);
+		/*this.citadels = new ArrayList<String>();
 		// this.strangeCitadels = new ArrayList<String>();
 		this.citadels.add("a4");
 		this.citadels.add("a5");
@@ -104,7 +106,7 @@ public class GameAshtonTablut implements Game {
 		// this.strangeCitadels.add("e1");
 		// this.strangeCitadels.add("a5");
 		// this.strangeCitadels.add("i5");
-		// this.strangeCitadels.add("e9");
+		// this.strangeCitadels.add("e9");*/
 	}
 
 	@Override
@@ -112,12 +114,18 @@ public class GameAshtonTablut implements Game {
 			throws BoardException, ActionException, StopException, PawnException, DiagonalException, ClimbingException,
 			ThroneException, OccupitedException, ClimbingCitadelException, CitadelException {
 		this.loggGame.fine(a.toString());
-		// controllo la mossa
+		// uso ActionValidator per controllare la mossa
+
 		if (a.getTo().length() != 2 || a.getFrom().length() != 2) {
 			this.loggGame.warning("Formato mossa errato");
 			throw new ActionException(a);
 		}
-		int columnFrom = a.getColumnFrom();
+		if (!actionValidator.isActionLegal(a.getRowFrom(), a.getColumnFrom(),
+				a.getRowTo(), a.getColumnTo())) {
+			this.loggGame.warning("Illegal move");
+			throw new ActionException(a);
+		}
+		/*int columnFrom = a.getColumnFrom();
 		int columnTo = a.getColumnTo();
 		int rowFrom = a.getRowFrom();
 		int rowTo = a.getRowTo();
@@ -262,7 +270,7 @@ public class GameAshtonTablut implements Game {
 					}
 				}
 			}
-		}
+		}*/
 
 		// se sono arrivato qui, muovo la pedina
 		state = this.movePawn(state, a);
@@ -322,7 +330,12 @@ public class GameAshtonTablut implements Game {
 
 		return state;
 	}
-
+	public ActionValidator getValidator() {
+		return actionValidator;
+	}
+	public void updateValidatorState(State state) {
+		this.actionValidator = new TablutActionValidator(state);
+	}
 	private State checkCaptureWhite(State state, Action a) {
 		// controllo se mangio a destra
 		if (a.getColumnTo() < state.getBoard().length - 2

@@ -52,4 +52,8 @@ public interface Game {
 			ThroneException, OccupitedException, ClimbingCitadelException, CitadelException;
 
 	public void endGame(State state);
+
+    void updateValidatorState(State state);
+
+	ActionValidator getValidator();
 }

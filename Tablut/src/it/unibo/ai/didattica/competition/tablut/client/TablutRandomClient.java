@@ -1,16 +1,10 @@
 package it.unibo.ai.didattica.competition.tablut.client;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.Socket;
 import java.net.UnknownHostException;
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-import com.google.gson.Gson;
 
 import it.unibo.ai.didattica.competition.tablut.domain.*;
 import it.unibo.ai.didattica.competition.tablut.domain.State.Turn;
@@ -79,7 +73,7 @@ public class TablutRandomClient extends TablutClient {
 		}
 
 		State state;
-
+		//ActionValidator validator = null;
 		Game rules = null;
 		switch (this.game) {
 		case 1:
@@ -89,6 +83,7 @@ public class TablutRandomClient extends TablutClient {
 		case 2:
 			state = new StateTablut();
 			rules = new GameModernTablut();
+			//validator = new TablutActionValidator(state);
 			break;
 		case 3:
 			state = new StateBrandub();
@@ -96,8 +91,9 @@ public class TablutRandomClient extends TablutClient {
 			break;
 		case 4:
 			state = new StateTablut();
-			state.setTurn(State.Turn.WHITE);
+			state.setTurn(Turn.WHITE);
 			rules = new GameAshtonTablut(99, 0, "garbage", "fake", "fake");
+			//validator = new TablutActionValidator(state);
 			System.out.println("Ashton Tablut game");
 			break;
 		default:
@@ -121,6 +117,9 @@ public class TablutRandomClient extends TablutClient {
 			System.out.println("Current state:");
 			state = this.getCurrentState();
 			System.out.println(state.toString());
+
+			// Update validator with current state
+			rules.updateValidatorState(state);
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
@@ -128,8 +127,8 @@ public class TablutRandomClient extends TablutClient {
 
 			if (this.getPlayer().equals(Turn.WHITE)) {
 				// Mio turno
-				if (this.getCurrentState().getTurn().equals(StateTablut.Turn.WHITE)) {
-					int[] buf;
+				if (this.getCurrentState().getTurn().equals(Turn.WHITE)) {
+					/*int[] buf;
 					for (int i = 0; i < state.getBoard().length; i++) {
 						for (int j = 0; j < state.getBoard().length; j++) {
 							if (state.getPawn(i, j).equalsPawn(State.Pawn.WHITE.toString())
@@ -152,7 +151,7 @@ public class TablutRandomClient extends TablutClient {
 					boolean found = false;
 					Action a = null;
 					try {
-						a = new Action("z0", "z0", State.Turn.WHITE);
+						a = new Action("z0", "z0", Turn.WHITE);
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -170,7 +169,7 @@ public class TablutRandomClient extends TablutClient {
 						String to = this.getCurrentState().getBox(selected[0], selected[1]);
 
 						try {
-							a = new Action(from, to, State.Turn.WHITE);
+							a = new Action(from, to, Turn.WHITE);
 						} catch (IOException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -183,44 +182,48 @@ public class TablutRandomClient extends TablutClient {
 
 						}
 
+					}*/
+					// get legal actions using the validator
+					List<Action> legalMoves = rules.getValidator().getLegalActions();
+					if (legalMoves.isEmpty()) {
+						throw new IllegalStateException("No legal moves available");
 					}
-
-					System.out.println("Mossa scelta: " + a.toString());
+					Action selectedAction = legalMoves.get(new Random().nextInt(legalMoves.size()));
+					System.out.println("Mossa scelta: " + selectedAction.toString());
 					try {
-						this.write(a);
-					} catch (ClassNotFoundException | IOException e) {
+						//rules.checkMove(state, selectedAction);
+						this.write(selectedAction);
+					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					pawns.clear();
-					empty.clear();
 
 				}
 				// Turno dell'avversario
-				else if (state.getTurn().equals(StateTablut.Turn.BLACK)) {
+				else if (state.getTurn().equals(Turn.BLACK)) {
 					System.out.println("Waiting for your opponent move... ");
 				}
 				// ho vinto
-				else if (state.getTurn().equals(StateTablut.Turn.WHITEWIN)) {
+				else if (state.getTurn().equals(Turn.WHITEWIN)) {
 					System.out.println("YOU WIN!");
 					System.exit(0);
 				}
 				// ho perso
-				else if (state.getTurn().equals(StateTablut.Turn.BLACKWIN)) {
+				else if (state.getTurn().equals(Turn.BLACKWIN)) {
 					System.out.println("YOU LOSE!");
 					System.exit(0);
 				}
 				// pareggio
-				else if (state.getTurn().equals(StateTablut.Turn.DRAW)) {
+				else if (state.getTurn().equals(Turn.DRAW)) {
 					System.out.println("DRAW!");
 					System.exit(0);
 				}
 
 			} else {
 
-				// Mio turno
-				if (this.getCurrentState().getTurn().equals(StateTablut.Turn.BLACK)) {
-					int[] buf;
+				// Mio turno (nero)
+				if (this.getCurrentState().getTurn().equals(Turn.BLACK)) {
+					/*int[] buf;
 					for (int i = 0; i < state.getBoard().length; i++) {
 						for (int j = 0; j < state.getBoard().length; j++) {
 							if (state.getPawn(i, j).equalsPawn(State.Pawn.BLACK.toString())) {
@@ -242,7 +245,7 @@ public class TablutRandomClient extends TablutClient {
 					boolean found = false;
 					Action a = null;
 					try {
-						a = new Action("z0", "z0", State.Turn.BLACK);
+						a = new Action("z0", "z0", Turn.BLACK);
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -256,7 +259,7 @@ public class TablutRandomClient extends TablutClient {
 						String to = this.getCurrentState().getBox(selected[0], selected[1]);
 
 						try {
-							a = new Action(from, to, State.Turn.BLACK);
+							a = new Action(from, to, Turn.BLACK);
 						} catch (IOException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -270,29 +273,32 @@ public class TablutRandomClient extends TablutClient {
 
 						}
 
+					}*/
+					// get legal actions using the validator
+					List<Action> legalMoves = rules.getValidator().getLegalActions();
+					if (legalMoves.isEmpty()) {
+						throw new IllegalStateException("No legal moves available");
 					}
-
-					System.out.println("Mossa scelta: " + a.toString());
+					Action selectedAction = legalMoves.get(new Random().nextInt(legalMoves.size()));
+					System.out.println("Mossa scelta: " + selectedAction.toString());
 					try {
-						this.write(a);
-					} catch (ClassNotFoundException | IOException e) {
+						//rules.checkMove(state, selectedAction);
+						this.write(selectedAction);
+					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					pawns.clear();
-					empty.clear();
-
 				}
 
-				else if (state.getTurn().equals(StateTablut.Turn.WHITE)) {
+				else if (state.getTurn().equals(Turn.WHITE)) {
 					System.out.println("Waiting for your opponent move... ");
-				} else if (state.getTurn().equals(StateTablut.Turn.WHITEWIN)) {
+				} else if (state.getTurn().equals(Turn.WHITEWIN)) {
 					System.out.println("YOU LOSE!");
 					System.exit(0);
-				} else if (state.getTurn().equals(StateTablut.Turn.BLACKWIN)) {
+				} else if (state.getTurn().equals(Turn.BLACKWIN)) {
 					System.out.println("YOU WIN!");
 					System.exit(0);
-				} else if (state.getTurn().equals(StateTablut.Turn.DRAW)) {
+				} else if (state.getTurn().equals(Turn.DRAW)) {
 					System.out.println("DRAW!");
 					System.exit(0);
 				}
