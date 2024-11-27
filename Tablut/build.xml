@@ -13,7 +13,7 @@
             <classpath>
                 <pathelement path="lib/gson-2.2.2.jar" />
                 <pathelement path="lib/commons-cli-1.4.jar" />
-                <pathelement location="lib/deeplearning4j-core-1.0.0-M2.1.jar"/>
+                 <pathelement location="lib/deeplearning4j-nn-1.0.0-M2.jar"/>
                 <pathelement location="lib/nd4j-native-platform-1.0.0-M2.1.jar"/>
                 <pathelement location="lib/nd4j-api-1.0.0-M2.1.jar"/>
                 <pathelement location="lib/nd4j-native-1.0.0-M2.1.jar"/>
@@ -32,7 +32,7 @@
             <classpath>
                 <pathelement location="lib/gson-2.2.2.jar"/>
                 <pathelement location="lib/commons-cli-1.4.jar"/>
-                <pathelement location="lib/deeplearning4j-core-1.0.0-M2.1.jar"/>
+                 <pathelement location="lib/deeplearning4j-nn-1.0.0-M2.jar"/>
                 <pathelement location="lib/nd4j-native-platform-1.0.0-M2.1.jar"/>
                 <pathelement location="lib/nd4j-api-1.0.0-M2.1.jar"/>
                 <pathelement location="lib/nd4j-native-1.0.0-M2.1.jar"/>
@@ -60,7 +60,7 @@
             <classpath>
                 <pathelement location="lib/gson-2.2.2.jar"/>
                 <pathelement location="lib/commons-cli-1.4.jar"/>
-                <pathelement location="lib/deeplearning4j-core-1.0.0-M2.1.jar"/>
+                 <pathelement location="lib/deeplearning4j-nn-1.0.0-M2.jar"/>
                 <pathelement location="lib/nd4j-native-platform-1.0.0-M2.1.jar"/>
                 <pathelement location="lib/nd4j-api-1.0.0-M2.1.jar"/>
                 <pathelement location="lib/nd4j-native-1.0.0-M2.1.jar"/>
@@ -74,7 +74,7 @@
         <java classname="it.unibo.ai.didattica.competition.tablut.client.ALAWhiteClient" fork="true">
             <classpath>
                 <pathelement location="lib/gson-2.2.2.jar"/>
-                <pathelement location="lib/deeplearning4j-core-1.0.0-M2.1.jar"/>
+                 <pathelement location="lib/deeplearning4j-nn-1.0.0-M2.jar"/>
                 <pathelement location="lib/nd4j-native-platform-1.0.0-M2.1.jar"/>
                 <pathelement location="lib/nd4j-api-1.0.0-M2.1.jar"/>
                 <pathelement location="lib/nd4j-native-1.0.0-M2.1.jar"/>
@@ -88,7 +88,7 @@
         <java classname="it.unibo.ai.didattica.competition.tablut.client.ALABlackClient" fork="true">
             <classpath>
                 <pathelement location="lib/gson-2.2.2.jar"/>
-                <pathelement location="lib/deeplearning4j-core-1.0.0-M2.1.jar"/>
+                 <pathelement location="lib/deeplearning4j-nn-1.0.0-M2.jar"/>
                 <pathelement location="lib/nd4j-native-platform-1.0.0-M2.1.jar"/>
                 <pathelement location="lib/nd4j-api-1.0.0-M2.1.jar"/>
                 <pathelement location="lib/nd4j-native-1.0.0-M2.1.jar"/>
@@ -102,7 +102,7 @@
         <java classname="it.unibo.ai.didattica.competition.tablut.client.TablutRandomWhiteClient" fork="true">
             <classpath>
                 <pathelement location="lib/gson-2.2.2.jar"/>
-                <pathelement location="lib/deeplearning4j-core-1.0.0-M2.1.jar"/>
+                 <pathelement location="lib/deeplearning4j-nn-1.0.0-M2.jar"/>
                 <pathelement location="lib/nd4j-native-platform-1.0.0-M2.1.jar"/>
                 <pathelement location="lib/nd4j-api-1.0.0-M2.1.jar"/>
                 <pathelement location="lib/nd4j-native-1.0.0-M2.1.jar"/>
@@ -116,7 +116,7 @@
         <java classname="it.unibo.ai.didattica.competition.tablut.client.TablutRandomBlackClient" fork="true">
             <classpath>
                 <pathelement location="lib/gson-2.2.2.jar"/>
-                <pathelement location="lib/deeplearning4j-core-1.0.0-M2.1.jar"/>
+                 <pathelement location="lib/deeplearning4j-nn-1.0.0-M2.jar"/>
                 <pathelement location="lib/nd4j-native-platform-1.0.0-M2.1.jar"/>
                 <pathelement location="lib/nd4j-api-1.0.0-M2.1.jar"/>
                 <pathelement location="lib/nd4j-native-1.0.0-M2.1.jar"/>
@@ -142,7 +142,7 @@
         <java classname="it.unibo.ai.didattica.competition.tablut.client.TablutHumanWhiteClient" fork="true">
             <classpath>
                 <pathelement location="lib/gson-2.2.2.jar"/>
-                <pathelement location="lib/deeplearning4j-core-1.0.0-M2.1.jar"/>
+                 <pathelement location="lib/deeplearning4j-nn-1.0.0-M2.jar"/>
                 <pathelement location="lib/nd4j-native-platform-1.0.0-M2.1.jar"/>
                 <pathelement location="lib/nd4j-api-1.0.0-M2.1.jar"/>
                 <pathelement location="lib/nd4j-native-1.0.0-M2.1.jar"/>
@@ -156,7 +156,7 @@
         <java classname="it.unibo.ai.didattica.competition.tablut.client.TablutHumanBlackClient" fork="true">
             <classpath>
                 <pathelement location="lib/gson-2.2.2.jar"/>
-                <pathelement location="lib/deeplearning4j-core-1.0.0-M2.1.jar"/>
+                 <pathelement location="lib/deeplearning4j-nn-1.0.0-M2.jar"/>
                 <pathelement location="lib/nd4j-native-platform-1.0.0-M2.1.jar"/>
                 <pathelement location="lib/nd4j-api-1.0.0-M2.1.jar"/>
                 <pathelement location="lib/nd4j-native-1.0.0-M2.1.jar"/>
@@ -170,7 +170,7 @@
         <java classname="it.unibo.ai.didattica.competition.tablut.tester.Tester" fork="true">
             <classpath>
                 <pathelement location="lib/gson-2.2.2.jar"/>
-                <pathelement location="lib/deeplearning4j-core-1.0.0-M2.1.jar"/>
+                 <pathelement location="lib/deeplearning4j-nn-1.0.0-M2.jar"/>
                 <pathelement location="lib/nd4j-native-platform-1.0.0-M2.1.jar"/>
                 <pathelement location="lib/nd4j-api-1.0.0-M2.1.jar"/>
                 <pathelement location="lib/nd4j-native-1.0.0-M2.1.jar"/>
