@@ -110,10 +110,8 @@ public class GameAshtonTablut implements Game {
 	}
 
 	@Override
-	public State checkMove(State state, Action a)
-			throws BoardException, ActionException, StopException, PawnException, DiagonalException, ClimbingException,
-			ThroneException, OccupitedException, ClimbingCitadelException, CitadelException {
-		this.loggGame.fine(a.toString());
+	public State checkMove(State state, Action a) {
+		/*this.loggGame.fine(a.toString());
 		// uso ActionValidator per controllare la mossa
 
 		if (a.getTo().length() != 2 || a.getFrom().length() != 2) {
@@ -124,7 +122,7 @@ public class GameAshtonTablut implements Game {
 				a.getRowTo(), a.getColumnTo())) {
 			this.loggGame.warning("Illegal move");
 			throw new ActionException(a);
-		}
+		}*/
 		/*int columnFrom = a.getColumnFrom();
 		int columnTo = a.getColumnTo();
 		int rowFrom = a.getRowFrom();

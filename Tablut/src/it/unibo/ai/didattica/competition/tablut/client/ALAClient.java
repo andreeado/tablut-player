@@ -4,15 +4,16 @@ import it.unibo.ai.didattica.competition.tablut.domain.GameTablut; //DA MODIFICA
 import it.unibo.ai.didattica.competition.tablut.player.ALAPlayer;
 import it.unibo.ai.didattica.competition.tablut.player.ALABlackPlayer;
 import it.unibo.ai.didattica.competition.tablut.player.ALAWhitePlayer;
-import it.unibo.ai.didattica.competition.tablut.client.TablutClient;
 import it.unibo.ai.didattica.competition.tablut.domain.*;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.List;
+import java.util.Random;
 
 public class ALAClient extends TablutClient{
 
-    private final ALAPlayer bestPlayer;
+    private final ALAPlayer alaPlayer;
 
     public ALAClient(String player, String name, int timeout, String ipAddress) throws UnknownHostException, IOException {
         super(player, name, timeout, ipAddress);
@@ -20,9 +21,9 @@ public class ALAClient extends TablutClient{
         GameTablut game = new GameTablut();
 
         if (this.getPlayer().equals(State.Turn.WHITE)) {
-            bestPlayer = new ALAWhitePlayer();
+            alaPlayer = new ALAWhitePlayer();
         } else {
-            bestPlayer = new ALABlackPlayer();
+            alaPlayer = new ALABlackPlayer();
         }
     }
 
@@ -81,6 +82,7 @@ public class ALAClient extends TablutClient{
         }
 
         State state = new StateTablut();
+        Game rules = new GameAshtonTablut(99, 0, "garbage", "fake", "fake");
         state.setTurn(State.Turn.WHITE);
         printALASignature();
 
@@ -120,11 +122,20 @@ public class ALAClient extends TablutClient{
                 System.out.println("DRAW!");
                 System.exit(0);
             }
+            // Update validator with current state
+            rules.updateValidatorState(state);
 
             if (this.getPlayer().equals(this.getCurrentState().getTurn())) {
                 try {
                     System.out.println("Your turn");
-                    sendActionToServer(bestPlayer.getOptimalAction(state, true));
+                    // get legal actions using the validator
+                    List<Action> legalMoves = rules.getValidator().getLegalActions();
+                    if (legalMoves.isEmpty()) {
+                        throw new IllegalStateException("No legal moves available");
+                    }
+                    Action selectedAction = legalMoves.get(new Random().nextInt(legalMoves.size()));
+                    System.out.println("Mossa scelta: " + selectedAction.toString());
+                    sendActionToServer(alaPlayer.getOptimalAction(state, true));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

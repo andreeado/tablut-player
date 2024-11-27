@@ -14,10 +14,8 @@ public class ALAHeuristic {
     private static final char[][] lookupTable;
     private static final Map<String, Integer> features;
     private static final List<int[]> escapes;
-    private State state;
 
-    public ALAHeuristic(State state) {
-        this.state = state;
+    public ALAHeuristic() {
             }
         
             static {
@@ -238,11 +236,11 @@ public class ALAHeuristic {
         return new ArrayList<>();
     }
 
-    public float evaluate() {
-        int[] kingPos = getKingPosition(this.state);
-        Pawn[][] board = this.state.getBoard();
-        int whitePieces = this.state.getNumberOf(Pawn.WHITE);
-        int blackPieces= this.state.getNumberOf(Pawn.BLACK);
+    public float evaluate(State state) {
+        int[] kingPos = getKingPosition(state);
+        Pawn[][] board = state.getBoard();
+        int whitePieces = state.getNumberOf(Pawn.WHITE);
+        int blackPieces= state.getNumberOf(Pawn.BLACK);
         try {
             H5NeuralNetworkPredictor NN = new H5NeuralNetworkPredictor("model.h5");
         } catch (IOException e) {

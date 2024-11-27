@@ -4,12 +4,27 @@ import it.unibo.ai.didattica.competition.tablut.domain.Action;
 import it.unibo.ai.didattica.competition.tablut.domain.State;
 
 import java.io.IOException;
+import java.util.List;
 
 public abstract class ALAPlayer {
     // private AdversarialSearch<State,Action> solver;
     // private Action previousAction = null;
     private double searchTime = 0.0;
     private int movesMade = 0;
+    protected State state;
+    protected List<Action> validMoves;
+    protected PrincipalVariationSearch pvs;
+
+    public ALAPlayer() {
+        this.pvs = new PrincipalVariationSearch();
+    }
+
+    public void setState(State state, List<Action> validMoves) {
+        this.state = state;
+        this.validMoves = validMoves;
+    }
+
+    public abstract Action getNextMove();
 
     public Action getOptimalAction (State state) {
         // previousAction = solver.makeDecision(state);

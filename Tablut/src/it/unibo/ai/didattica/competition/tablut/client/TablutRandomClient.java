@@ -101,8 +101,6 @@ public class TablutRandomClient extends TablutClient {
 			System.exit(4);
 		}
 
-		List<int[]> pawns = new ArrayList<int[]>();
-		List<int[]> empty = new ArrayList<int[]>();
 
 		System.out.println("You are player " + this.getPlayer().toString() + "!");
 
