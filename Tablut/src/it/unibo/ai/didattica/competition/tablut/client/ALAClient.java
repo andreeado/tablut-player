@@ -133,6 +133,9 @@ public class ALAClient extends TablutClient{
                 }
                 alaPlayer.setState(state, legalMoves);
                 Action selectedAction = alaPlayer.getNextMove();
+                if(selectedAction == null) {
+                    throw new IllegalStateException("NO ACTION SELECTED");
+                }
                 //Action selectedAction = legalMoves.get(new Random().nextInt(legalMoves.size()));
                 System.out.println("Mossa scelta: " + selectedAction.toString());
                 sendActionToServer(selectedAction);
