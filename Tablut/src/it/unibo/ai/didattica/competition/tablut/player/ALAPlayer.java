@@ -1,6 +1,8 @@
 package it.unibo.ai.didattica.competition.tablut.player;
 
 import it.unibo.ai.didattica.competition.tablut.domain.Action;
+import it.unibo.ai.didattica.competition.tablut.domain.Game;
+import it.unibo.ai.didattica.competition.tablut.domain.GameAshtonTablut;
 import it.unibo.ai.didattica.competition.tablut.domain.State;
 
 import java.io.IOException;
@@ -11,59 +13,27 @@ public abstract class ALAPlayer {
     // private Action previousAction = null;
     private double searchTime = 0.0;
     private int movesMade = 0;
-    protected State state;
+    protected State currentState;
     protected List<Action> validMoves;
     protected PrincipalVariationSearch pvs;
+    protected Game gameRules;
+    protected boolean isMaxPlayer;
 
-    public ALAPlayer() {
-        this.pvs = new PrincipalVariationSearch();
+    public ALAPlayer(boolean isMaxPlayer) {
+        this.gameRules = new GameAshtonTablut(99, 0, "garbage", "fake", "fake");
+        this.pvs = new PrincipalVariationSearch(gameRules);
+        this.isMaxPlayer = isMaxPlayer;
     }
 
     public void setState(State state, List<Action> validMoves) {
-        this.state = state;
+        this.currentState = state;
         this.validMoves = validMoves;
     }
 
-    public abstract Action getNextMove();
-
-    public Action getOptimalAction (State state) {
-        // previousAction = solver.makeDecision(state);
-        // movesMade++;
-        // return previousAction;
-        return null;
-    }
-
- 
-    public Action getOptimalAction(State state, boolean verbose) throws IOException {
-        if (verbose) {
-            System.out.println("Choosing optimal action...");
+    public Action getNextMove(){
+        if (currentState == null || validMoves == null || validMoves.isEmpty()) {
+            throw new IllegalStateException("State or valid moves not properly initialized");
         }
-        double startTime = System.currentTimeMillis();
-        Action result = getOptimalAction(state);
-        searchTime = (System.currentTimeMillis() - startTime);
-        printMetrics();
-
-        return result;
+        return pvs.findBestMove(currentState, validMoves, isMaxPlayer);
     }
-
-    public String getMetrics() {
-        // Metrics metrics = solver.getMetrics();
-
-        // String message = "Search summary for my move " + movesMade + ":";
-        // message += "\n - Maximum depth: " + metrics.get("maxDepth");
-        // message += "\n - Nodes expanded: " + metrics.get("nodesExpanded");
-        // message += "\n - Action chosen: " + previousAction.toString();
-        // message += "\n - time used for search: " + searchTime + " ms";
-        // return message;
-        return "";
-    }
-
-    public void printMetrics() {
-        System.out.println(getMetrics());
-    }
-
-    public void setSolver() {}
-    // public void setSolver(AdversarialSearch<State,Action> solver) {
-    //     this.solver = solver;
-    // }
 }
