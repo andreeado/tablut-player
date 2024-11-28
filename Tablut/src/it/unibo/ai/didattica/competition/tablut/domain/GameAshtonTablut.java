@@ -82,10 +82,10 @@ public class GameAshtonTablut implements Game {
 		loggGame.fine("Players:\t" + whiteName + "\tvs\t" + blackName);
 		loggGame.fine("Repeated moves allowed:\t" + repeated_moves_allowed + "\tCache:\t" + cache_size);
 		loggGame.fine("Inizio partita");
-		loggGame.fine("Stato:\n" + state.toString());
+		// loggGame.fine("Stato:\n" + state.toString());
 		drawConditions = new ArrayList<State>();
 		this.actionValidator = new TablutActionValidator(state);
-		/*this.citadels = new ArrayList<String>();
+		this.citadels = new ArrayList<String>();
 		// this.strangeCitadels = new ArrayList<String>();
 		this.citadels.add("a4");
 		this.citadels.add("a5");
@@ -106,7 +106,7 @@ public class GameAshtonTablut implements Game {
 		// this.strangeCitadels.add("e1");
 		// this.strangeCitadels.add("a5");
 		// this.strangeCitadels.add("i5");
-		// this.strangeCitadels.add("e9");*/
+		// this.strangeCitadels.add("e9");
 	}
 
 	@Override
@@ -323,8 +323,8 @@ public class GameAshtonTablut implements Game {
 
 		this.loggGame.fine("Current draw cache size: " + this.drawConditions.size());
 
-		this.loggGame.fine("Stato:\n" + state.toString());
-		System.out.println("Stato:\n" + state.toString());
+		// this.loggGame.fine("Stato:\n" + state.toString());
+		// System.out.println("Stato:\n" + state.toString());
 
 		return state;
 	}
@@ -757,7 +757,7 @@ public class GameAshtonTablut implements Game {
 
 	@Override
 	public void endGame(State state) {
-		this.loggGame.fine("Stato:\n"+state.toString());
+		// this.loggGame.fine("Stato:\n"+state.toString());
 	}
 
 

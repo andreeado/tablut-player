@@ -45,11 +45,11 @@ public class PrincipalVariationSearch {
                     currentDepth++;
                 } else {
                     // Search at this depth didn't complete in time
-                    break;
+                    return bestMove;
                 }
             }
-        } catch (Exception e) {
-            System.err.println("Search interrupted, using best move found so far");
+        } catch (RuntimeException e) {
+            System.err.println("Search interrupted, using best move found so far at depth "+ currentDepth);
         }
 
         long endTime = System.currentTimeMillis();
@@ -81,7 +81,7 @@ public class PrincipalVariationSearch {
                     alpha = Math.max(alpha, score);
                 }
             } catch (Exception e) {
-                System.err.println("Error evaluating move: " + move);
+                System.err.println("Error evaluating move: " + e.getMessage());
             }
         }
 
@@ -101,7 +101,7 @@ public class PrincipalVariationSearch {
     private float pvs(State state, int depth, float alpha, float beta, boolean isFirstNode,
                       boolean isMaxPlayer, long timeLimit) {
         if (System.currentTimeMillis() >= timeLimit - TIME_BUFFER_MS) {
-            throw new RuntimeException("Time limit reached");
+            throw new RuntimeException("init Time limit reached");
         }
 
         if (depth == 0 || isTerminalState(state)) {
@@ -117,9 +117,9 @@ public class PrincipalVariationSearch {
         boolean isFirstMove = true;
 
         for (Action move : possibleMoves) {
-            if (System.currentTimeMillis() >= timeLimit - TIME_BUFFER_MS) {
-                throw new RuntimeException("Time limit reached");
-            }
+            // if (System.currentTimeMillis() >= timeLimit - TIME_BUFFER_MS) {
+            //     throw new RuntimeException("cilato Time limit reached");
+            // }
 
             try {
                 State newState = game.checkMove(state, move);
@@ -142,9 +142,10 @@ public class PrincipalVariationSearch {
                     break;
                 }
             } catch (RuntimeException e) {
+                System.err.println("ultima call del treno");
                 throw e; // Propagate time limit exceptions
             } catch (Exception e) {
-                System.err.println("Error in PVS search");
+                System.err.println("bestemmie Error in PVS search");
             }
         }
 

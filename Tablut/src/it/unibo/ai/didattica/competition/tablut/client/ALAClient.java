@@ -97,7 +97,7 @@ public class ALAClient extends TablutClient{
             }
             System.out.println("\nThe current state is:");
             state = this.getCurrentState();
-            System.out.println(state.toString());
+            // System.out.println(state.toString());
 
             if (state.getTurn().equals(StateTablut.Turn.BLACKWIN)) {
                 if (this.getPlayer().equals(State.Turn.BLACK)) {
