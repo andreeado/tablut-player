@@ -126,21 +126,17 @@ public class ALAClient extends TablutClient{
             rules.updateValidatorState(state);
 
             if (this.getPlayer().equals(this.getCurrentState().getTurn())) {
-                try {
-                    System.out.println("Your turn");
-                    // get legal actions using the validator
-                    List<Action> legalMoves = rules.getValidator().getLegalActions();
-                    if (legalMoves.isEmpty()) {
-                        throw new IllegalStateException("No legal moves available");
-                    }
-                    alaPlayer.setState(state, legalMoves);
-                    Action selectedAction = alaPlayer.getNextMove();
-                    //Action selectedAction = legalMoves.get(new Random().nextInt(legalMoves.size()));
-                    System.out.println("Mossa scelta: " + selectedAction.toString());
-                    sendActionToServer(alaPlayer.getOptimalAction(state, true));
-                } catch (IOException e) {
-                    e.printStackTrace();
+                System.out.println("Your turn");
+                // get legal actions using the validator
+                List<Action> legalMoves = rules.getValidator().getLegalActions();
+                if (legalMoves.isEmpty()) {
+                    throw new IllegalStateException("No legal moves available");
                 }
+                alaPlayer.setState(state, legalMoves);
+                Action selectedAction = alaPlayer.getNextMove();
+                //Action selectedAction = legalMoves.get(new Random().nextInt(legalMoves.size()));
+                System.out.println("Mossa scelta: " + selectedAction.toString());
+                sendActionToServer(selectedAction);
             } else {
                 System.out.println("Waiting for opponent ...");
             }

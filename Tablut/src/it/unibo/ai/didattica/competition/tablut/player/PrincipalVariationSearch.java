@@ -1,15 +1,10 @@
 package it.unibo.ai.didattica.competition.tablut.player;
-
 import it.unibo.ai.didattica.competition.tablut.domain.Action;
 import it.unibo.ai.didattica.competition.tablut.domain.Game;
 import it.unibo.ai.didattica.competition.tablut.domain.State;
 import it.unibo.ai.didattica.competition.tablut.heuristic.ALAHeuristic;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+
 
 public class PrincipalVariationSearch {
     private static final float INFINITY = 1000000;
@@ -23,11 +18,6 @@ public class PrincipalVariationSearch {
         this.maxDepth = 5;
         this.heuristic = new ALAHeuristic();
         this.game = game;
-    }
-
-    public PrincipalVariationSearch(ALAHeuristic heuristic, int maxDepth) {
-        this.heuristic = heuristic;
-        this.maxDepth = maxDepth;
     }
 
     /**
