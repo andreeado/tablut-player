@@ -31,125 +31,12 @@ public class GameModernTablut implements Game {
 	}
 
 	@Override
-	public State checkMove(State state, Action a) throws BoardException, ActionException, StopException, PawnException,
-			DiagonalException, ClimbingException, ThroneException, OccupitedException {
+	public State checkMove(State state, Action a) {
 		// this.loggGame.fine(a.toString());
 		// controllo la mossa
-		if (a.getTo().length() != 2 || a.getFrom().length() != 2) {
-			// this.loggGame.warning("Formato mossa errato");
-			throw new ActionException(a);
-		}
-		int columnFrom = a.getColumnFrom();
-		int columnTo = a.getColumnTo();
-		int rowFrom = a.getRowFrom();
-		int rowTo = a.getRowTo();
 
-		// controllo se sono fuori dal tabellone
-		if (columnFrom > state.getBoard().length - 1 || rowFrom > state.getBoard().length - 1
-				|| rowTo > state.getBoard().length - 1 || columnTo > state.getBoard().length - 1 || columnFrom < 0
-				|| rowFrom < 0 || rowTo < 0 || columnTo < 0) {
-			// this.loggGame.warning("Mossa fuori tabellone");
-			throw new BoardException(a);
-		}
 
-		// controllo che non vada sul trono
-		if (state.getPawn(rowTo, columnTo).equalsPawn(State.Pawn.THRONE.toString())) {
-			// this.loggGame.warning("Mossa sul trono");
-			throw new ThroneException(a);
-		}
-
-		// controllo la casella di arrivo
-		if (!state.getPawn(rowTo, columnTo).equalsPawn(State.Pawn.EMPTY.toString())) {
-			// this.loggGame.warning("Mossa sopra una casella occupata");
-			throw new OccupitedException(a);
-		}
-
-		// controllo se cerco di stare fermo
-		if (rowFrom == rowTo && columnFrom == columnTo) {
-			// this.loggGame.warning("Nessuna mossa");
-			throw new StopException(a);
-		}
-
-		// controllo se sto muovendo una pedina giusta
-		if (state.getTurn().equalsTurn(State.Turn.WHITE.toString())) {
-			if (!state.getPawn(rowFrom, columnFrom).equalsPawn("W")
-					&& !state.getPawn(rowFrom, columnFrom).equalsPawn("K")) {
-				// this.loggGame.warning("Giocatore "+a.getTurn()+" cerca di
-				// muovere una pedina avversaria");
-				throw new PawnException(a);
-			}
-		}
-		if (state.getTurn().equalsTurn(State.Turn.BLACK.toString())) {
-			if (!state.getPawn(rowFrom, columnFrom).equalsPawn("B")) {
-				// this.loggGame.warning("Giocatore "+a.getTurn()+" cerca di
-				// muovere una pedina avversaria");
-				throw new PawnException(a);
-			}
-		}
-
-		// controllo di non muovere in diagonale
-		if (rowFrom != rowTo && columnFrom != columnTo) {
-			// this.loggGame.warning("Mossa in diagonale");
-			throw new DiagonalException(a);
-		}
-
-		// controllo di non scavalcare pedine
-		if (rowFrom == rowTo) {
-			if (columnFrom > columnTo) {
-				for (int i = columnTo; i < columnFrom; i++) {
-					if (!state.getPawn(rowFrom, i).equalsPawn(State.Pawn.EMPTY.toString())
-							&& !state.getPawn(rowFrom, i).equalsPawn(State.Pawn.THRONE.toString())) {
-						// this.loggGame.warning("Mossa che scavalca una
-						// pedina");
-						throw new ClimbingException(a);
-					}
-				}
-			} else {
-				for (int i = columnFrom + 1; i <= columnTo; i++) {
-					if (!state.getPawn(rowFrom, i).equalsPawn(State.Pawn.EMPTY.toString())
-							&& !state.getPawn(rowFrom, i).equalsPawn(State.Pawn.THRONE.toString())) {
-						// this.loggGame.warning("Mossa che scavalca una
-						// pedina");
-						throw new ClimbingException(a);
-					}
-				}
-			}
-		} else {
-			if (rowFrom > rowTo) {
-				for (int i = rowTo; i < rowFrom; i++) {
-					if (!state.getPawn(i, columnFrom).equalsPawn(State.Pawn.EMPTY.toString())
-							&& !state.getPawn(i, columnFrom).equalsPawn(State.Pawn.THRONE.toString())) {
-						// this.loggGame.warning("Mossa che scavalca una
-						// pedina");
-						throw new ClimbingException(a);
-					}
-				}
-			} else {
-				for (int i = rowFrom + 1; i <= rowTo; i++) {
-					if (!state.getPawn(i, columnFrom).equalsPawn(State.Pawn.EMPTY.toString())
-							&& !state.getPawn(i, columnFrom).equalsPawn(State.Pawn.THRONE.toString())) {
-						// this.loggGame.warning("Mossa che scavalca una
-						// pedina");
-						throw new ClimbingException(a);
-					}
-				}
-			}
-		}
-
-		// se sono arrivato qui, muovo la pedina
-		state = this.movePawn(state, a);
-
-		// a questo punto controllo lo stato per eventuali catture
-		if (state.getTurn().equalsTurn("W")) {
-			state = this.checkCaptureBlack(state, a);
-		}
-		if (state.getTurn().equalsTurn("B")) {
-			state = this.checkCaptureWhite(state, a);
-		}
-
-		// this.loggGame.fine("Stato: "+state.toString());
-
-		return state;
+		return null;
 	}
 
 	private State movePawn(State state, Action a) {

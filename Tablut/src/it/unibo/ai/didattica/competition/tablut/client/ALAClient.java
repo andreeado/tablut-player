@@ -133,7 +133,9 @@ public class ALAClient extends TablutClient{
                     if (legalMoves.isEmpty()) {
                         throw new IllegalStateException("No legal moves available");
                     }
-                    Action selectedAction = legalMoves.get(new Random().nextInt(legalMoves.size()));
+                    alaPlayer.setState(state, legalMoves);
+                    Action selectedAction = alaPlayer.getNextMove();
+                    //Action selectedAction = legalMoves.get(new Random().nextInt(legalMoves.size()));
                     System.out.println("Mossa scelta: " + selectedAction.toString());
                     sendActionToServer(alaPlayer.getOptimalAction(state, true));
                 } catch (IOException e) {
