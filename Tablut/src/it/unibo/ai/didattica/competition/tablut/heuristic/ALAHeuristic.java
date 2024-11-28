@@ -276,16 +276,16 @@ public class ALAHeuristic {
         Pawn[][] board = state.getBoard();
         int whitePieces = state.getNumberOf(Pawn.WHITE);
         int blackPieces= state.getNumberOf(Pawn.BLACK);
+        float[] input = new float[] {
+                calculatePieceDifference(state.getNumberOf(Pawn.WHITE), state.getNumberOf(Pawn.BLACK)),
+                calculateKingEscapeDistance(kingPos),
+                calculateDangerMetric(kingPos, state.getBoard()),
+                findAvailableEscapes(kingPos, state.getBoard()),
+                findFreePaths(kingPos, state.getBoard())
+        };
         float euristic;
-        try {
-            H5NeuralNetworkPredictor NN = new H5NeuralNetworkPredictor("C:\\Users\\billi\\Desktop\\TABLOOT\\n" + //
-                                "ostro\\tablut-player\\Tablut\\src\\it\\unibo\\ai\\didattica\\competition\\tablut\\heuristic\\model.h5");
-            euristic = NN.predict(calculatePieceDifference(whitePieces, blackPieces), calculateKingEscapeDistance(kingPos), calculateDangerMetric(kingPos, board), findAvailableEscapes(kingPos, board), findFreePaths(kingPos, board));
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            euristic = 0.0f;
-        }
+        //H5NeuralNetworkPredictor NN = new H5NeuralNetworkPredictor("/home/sharp/tablut-player/Tablut/src/it/unibo/ai/didattica/competition/tablut/heuristic/model.h5");
+        euristic =  NeuralNetwork.getInstance().predict(input);
         // ritorna il valore della rete neurale che prende in input le funzioni private con parametri this.
         return euristic;
     }
