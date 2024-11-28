@@ -17,6 +17,9 @@
                 <pathelement location="lib/nd4j-native-platform-1.0.0-M2.1.jar"/>
                 <pathelement location="lib/nd4j-api-1.0.0-M2.1.jar"/>
                 <pathelement location="lib/nd4j-native-1.0.0-M2.1.jar"/>
+                <pathelement location="lib/slf4j-api-1.7.32.jar" />
+                <pathelement location="lib/slf4j-simple-1.7.32.jar" />
+                <pathelement location="lib/commons-io-2.11.0.jar" />
             </classpath>
         </javac>
         <copy todir="build">
@@ -36,6 +39,7 @@
                 <pathelement location="lib/nd4j-native-platform-1.0.0-M2.1.jar"/>
                 <pathelement location="lib/nd4j-api-1.0.0-M2.1.jar"/>
                 <pathelement location="lib/nd4j-native-1.0.0-M2.1.jar"/>
+                <pathelement location="lib/commons-io-2.11.0.jar" />
 
                 <pathelement location="build"/>
             </classpath>
@@ -64,6 +68,9 @@
                 <pathelement location="lib/nd4j-native-platform-1.0.0-M2.1.jar"/>
                 <pathelement location="lib/nd4j-api-1.0.0-M2.1.jar"/>
                 <pathelement location="lib/nd4j-native-1.0.0-M2.1.jar"/>
+                <pathelement location="lib/slf4j-api-1.7.32.jar" />
+                <pathelement location="lib/slf4j-simple-1.7.32.jar" />
+                <pathelement location="lib/commons-io-2.11.0.jar" />
 
                 <pathelement location="build"/>
             </classpath>
@@ -78,6 +85,9 @@
                 <pathelement location="lib/nd4j-native-platform-1.0.0-M2.1.jar"/>
                 <pathelement location="lib/nd4j-api-1.0.0-M2.1.jar"/>
                 <pathelement location="lib/nd4j-native-1.0.0-M2.1.jar"/>
+                <pathelement location="lib/slf4j-api-1.7.32.jar" />
+                <pathelement location="lib/slf4j-simple-1.7.32.jar" />
+                <pathelement location="lib/commons-io-2.11.0.jar" />
 
                 <pathelement location="build"/>
             </classpath>
@@ -92,6 +102,9 @@
                 <pathelement location="lib/nd4j-native-platform-1.0.0-M2.1.jar"/>
                 <pathelement location="lib/nd4j-api-1.0.0-M2.1.jar"/>
                 <pathelement location="lib/nd4j-native-1.0.0-M2.1.jar"/>
+                <pathelement location="lib/slf4j-api-1.7.32.jar" />
+                <pathelement location="lib/slf4j-simple-1.7.32.jar" />
+                <pathelement location="lib/commons-io-2.11.0.jar" />
 
                 <pathelement location="build"/>
             </classpath>
@@ -106,6 +119,9 @@
                 <pathelement location="lib/nd4j-native-platform-1.0.0-M2.1.jar"/>
                 <pathelement location="lib/nd4j-api-1.0.0-M2.1.jar"/>
                 <pathelement location="lib/nd4j-native-1.0.0-M2.1.jar"/>
+                <pathelement location="lib/slf4j-api-1.7.32.jar" />
+                <pathelement location="lib/slf4j-simple-1.7.32.jar" />
+                <pathelement location="lib/commons-io-2.11.0.jar" />
 
                 <pathelement location="build"/>
             </classpath>
@@ -120,6 +136,9 @@
                 <pathelement location="lib/nd4j-native-platform-1.0.0-M2.1.jar"/>
                 <pathelement location="lib/nd4j-api-1.0.0-M2.1.jar"/>
                 <pathelement location="lib/nd4j-native-1.0.0-M2.1.jar"/>
+                <pathelement location="lib/slf4j-api-1.7.32.jar" />
+                <pathelement location="lib/slf4j-simple-1.7.32.jar" />
+                <pathelement location="lib/commons-io-2.11.0.jar" />
 
                 <pathelement location="build"/>
             </classpath>
@@ -142,10 +161,13 @@
         <java classname="it.unibo.ai.didattica.competition.tablut.client.TablutHumanWhiteClient" fork="true">
             <classpath>
                 <pathelement location="lib/gson-2.2.2.jar"/>
-                 <pathelement location="lib/deeplearning4j-nn-1.0.0-M2.jar"/>
+                <pathelement location="lib/deeplearning4j-nn-1.0.0-M2.jar"/>
                 <pathelement location="lib/nd4j-native-platform-1.0.0-M2.1.jar"/>
                 <pathelement location="lib/nd4j-api-1.0.0-M2.1.jar"/>
                 <pathelement location="lib/nd4j-native-1.0.0-M2.1.jar"/>
+                <pathelement location="lib/slf4j-api-1.7.32.jar" />
+                <pathelement location="lib/slf4j-simple-1.7.32.jar" />
+                <pathelement location="lib/commons-io-2.11.0.jar" />
 
                 <pathelement location="build"/>
             </classpath>
@@ -160,6 +182,9 @@
                 <pathelement location="lib/nd4j-native-platform-1.0.0-M2.1.jar"/>
                 <pathelement location="lib/nd4j-api-1.0.0-M2.1.jar"/>
                 <pathelement location="lib/nd4j-native-1.0.0-M2.1.jar"/>
+                <pathelement location="lib/slf4j-api-1.7.32.jar" />
+                <pathelement location="lib/slf4j-simple-1.7.32.jar" />
+                <pathelement location="lib/commons-io-2.11.0.jar" />
 
                 <pathelement location="build"/>
             </classpath>
@@ -174,6 +199,9 @@
                 <pathelement location="lib/nd4j-native-platform-1.0.0-M2.1.jar"/>
                 <pathelement location="lib/nd4j-api-1.0.0-M2.1.jar"/>
                 <pathelement location="lib/nd4j-native-1.0.0-M2.1.jar"/>
+                <pathelement location="lib/slf4j-api-1.7.32.jar" />
+                <pathelement location="lib/slf4j-simple-1.7.32.jar" />
+                <pathelement location="lib/commons-io-2.11.0.jar" />
 
                 <pathelement location="build"/>
             </classpath>

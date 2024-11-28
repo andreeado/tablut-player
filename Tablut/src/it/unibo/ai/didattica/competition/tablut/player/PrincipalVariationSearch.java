@@ -66,6 +66,7 @@ public class PrincipalVariationSearch {
         float beta = INFINITY;
 
         for (Action move : validMoves) {
+            System.out.println("MOVE: " + move);
             if (System.currentTimeMillis() >= timeLimit) {
                 return null; // Time is running out, abort this depth
             }

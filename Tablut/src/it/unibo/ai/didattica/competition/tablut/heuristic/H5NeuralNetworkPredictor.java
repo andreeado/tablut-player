@@ -16,8 +16,13 @@ public class H5NeuralNetworkPredictor {
     private MultiLayerNetwork model;
 
     public H5NeuralNetworkPredictor(String modelPath) throws IOException {
+        File modelFile = new File(modelPath);
+        System.out.println("Model path: " + modelFile.getAbsolutePath());
+        if (!modelFile.exists()) {
+            throw new IOException("Model file not found: " + modelPath);
+        }
         // Load pre-trained model
-        model = MultiLayerNetwork.load(new File(modelPath), true);
+        model = MultiLayerNetwork.load(modelFile, true);
     }
 
     public float predict(int diffWhiteBlack, int kingEscape, int dangerMetric, int escape, int freePath) {

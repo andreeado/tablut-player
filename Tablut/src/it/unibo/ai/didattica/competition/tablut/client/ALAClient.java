@@ -128,11 +128,20 @@ public class ALAClient extends TablutClient{
                 System.out.println("Your turn");
                 // get legal actions using the validator
                 List<Action> legalMoves = rules.getValidator().getLegalActions();
+
                 if (legalMoves.isEmpty()) {
                     throw new IllegalStateException("No legal moves available");
                 }
+
+                // System.out.println("Legal moves: " + legalMoves.size());
+                // System.out.println("sate: " + state.toString());
+
                 alaPlayer.setState(state, legalMoves);
+
                 Action selectedAction = alaPlayer.getNextMove();
+
+                // System.out.println("Selected action: " + selectedAction.toString());
+                
                 if(selectedAction == null) {
                     throw new IllegalStateException("NO ACTION SELECTED");
                 }

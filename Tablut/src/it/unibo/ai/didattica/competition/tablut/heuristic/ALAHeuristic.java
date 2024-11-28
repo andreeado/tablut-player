@@ -272,20 +272,20 @@ public class ALAHeuristic {
     }
 
     public float evaluate(State state) {
-        int[] kingPos = getKingPosition(state);
-        Pawn[][] board = state.getBoard();
+        // int[] kingPos = getKingPosition(state);
+        // Pawn[][] board = state.getBoard();
         int whitePieces = state.getNumberOf(Pawn.WHITE);
         int blackPieces= state.getNumberOf(Pawn.BLACK);
-        float euristic;
-        try {
-            H5NeuralNetworkPredictor NN = new H5NeuralNetworkPredictor("model.h5");
-            euristic = NN.predict(calculatePieceDifference(whitePieces, blackPieces), calculateKingEscapeDistance(kingPos), calculateDangerMetric(kingPos, board), findAvailableEscapes(kingPos, board), findFreePaths(kingPos, board));
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            euristic = 0;
-        }
+        // float euristic;
+        // try {
+        //     H5NeuralNetworkPredictor NN = new H5NeuralNetworkPredictor("model.h5");
+        //     euristic = NN.predict(calculatePieceDifference(whitePieces, blackPieces), calculateKingEscapeDistance(kingPos), calculateDangerMetric(kingPos, board), findAvailableEscapes(kingPos, board), findFreePaths(kingPos, board));
+        // } catch (IOException e) {
+        //     // TODO Auto-generated catch block
+        //     e.printStackTrace();
+        //     euristic = 0;
+        // }
         // ritorna il valore della rete neurale che prende in input le funzioni private con parametri this.
-        return euristic;
+        return whitePieces - blackPieces;
     }
 }

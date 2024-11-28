@@ -150,9 +150,9 @@ public class TablutActionValidator implements ActionValidator {
                     // controlla le azioni per quel pezzo
                     List<Action> pieceActions = getLegalActionsForPiece(row, col);
                     // Debug log
-                    for (Action action : pieceActions) {
-                        System.out.println("Validator generated move: " + action.toString());
-                    }
+                    // for (Action action : pieceActions) {
+                    //     System.out.println("Validator generated move: " + action.toString());
+                    // }
                     actions.addAll(pieceActions);
                 }
             }
