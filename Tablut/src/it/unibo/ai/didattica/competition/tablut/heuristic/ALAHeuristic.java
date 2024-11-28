@@ -178,7 +178,7 @@ public class ALAHeuristic {
      * @param board La matrice del gioco.
      * @return Metriche di pericolo.
      */
-    private static int calculateDangerMetric(int[] kingPos, char[][] board) {
+    private static int calculateDangerMetric(int[] kingPos, Pawn[][] board) {
         int dangerMetric = 0;
         int[][] directions = { {-1, 0}, {1, 0}, {0, -1}, {0, 1} }; // Direzioni (nord, sud, ovest, est)
 
@@ -188,7 +188,7 @@ public class ALAHeuristic {
 
             // Controlla se le coordinate sono valide
             if (newX >= 0 && newX <= 8 && newY >= 0 && newY <= 8) {
-                if (board[newX][newY] == 'B' || lookupTable[newX][newY] == 'C') {
+                if (board[newX][newY] == Pawn.BLACK || lookupTable[newX][newY] == 'C') {
                     dangerMetric++;
                 }
             }
@@ -203,26 +203,28 @@ public class ALAHeuristic {
      * @param board La matrice del gioco.
      * @return Lista delle posizioni di fuga disponibili.
      */
-    private static List<int[]> findAvailableEscapes(int[] kingPos, char[][] board) {
-        List<int[]> availableEscapes = new ArrayList<>();
+    private static int findAvailableEscapes(int[] kingPos, Pawn[][] board) {
+        // List<int[]> availableEscapes = new ArrayList<>();
+        int counterResult = 0;
 
         for (int[] escape : escapes) {
             int x = escape[0];
             int y = escape[1];
 
             // Controlla se la posizione di fuga è vuota
-            if (board[x][y] == '-') {
+            if (board[x][y] == Pawn.EMPTY) {
                 // Controlla il lato opposto rispetto al bordo
-                if (!((x == 0 && board[1][y] == 'B') ||  // Fuga sul bordo superiore
-                      (x == 8 && board[7][y] == 'B') ||  // Fuga sul bordo inferiore
-                      (y == 0 && board[x][1] == 'B') ||  // Fuga sul bordo sinistro
-                      (y == 8 && board[x][7] == 'B'))) { // Fuga sul bordo destro
-                    availableEscapes.add(escape);
+                if (!((x == 0 && board[1][y] == Pawn.BLACK) ||  // Fuga sul bordo superiore
+                      (x == 8 && board[7][y] == Pawn.BLACK) ||  // Fuga sul bordo inferiore
+                      (y == 0 && board[x][1] == Pawn.BLACK) ||  // Fuga sul bordo sinistro
+                      (y == 8 && board[x][7] == Pawn.BLACK))) { // Fuga sul bordo destro
+                    counterResult++;
+                    // availableEscapes.add(escape);
                 }
             }
         }
 
-        return availableEscapes;
+        return counterResult;
     }
 
     /**
@@ -231,9 +233,42 @@ public class ALAHeuristic {
      * @param board La matrice del gioco.
      * @return Lista delle posizioni accessibili.
      */
-    private static List<int[]> findFreePaths(int[] kingPos, char[][] board) {
-        // Implementa il metodo freePathToEscape qui.
-        return new ArrayList<>();
+    private static int findFreePaths(int[] kingPos, Pawn[][] board) {
+    
+        int x = kingPos[0];
+        int y = kingPos[1];
+        int freePathsCount = 0;
+    
+        for (int[] escape : escapes) {
+            int ex = escape[0];
+            int ey = escape[1];
+    
+            if (x == ex) { // Stessa riga
+                boolean freePath = true;
+                for (int col = Math.min(y, ey) + 1; col < Math.max(y, ey); col++) {
+                    if (board[x][col] != Pawn.EMPTY || features.get(x + "," + col) == 'C' || features.get(x + "," + col) == 'T') {
+                        freePath = false;
+                        break;
+                    }
+                }
+                if (freePath) {
+                    freePathsCount++;
+                }
+            } else if (y == ey) { // Stessa colonna
+                boolean freePath = true;
+                for (int row = Math.min(x, ex) + 1; row < Math.max(x, ex); row++) {
+                    if (board[row][y] != Pawn.EMPTY || features.get(row + "," + y) == 'C' || features.get(row + "," + y) == 'T') {
+                        freePath = false;
+                        break;
+                    }
+                }
+                if (freePath) {
+                    freePathsCount++;
+                }
+            }
+        }
+    
+        return freePathsCount;
     }
 
     public float evaluate(State state) {
@@ -241,13 +276,16 @@ public class ALAHeuristic {
         Pawn[][] board = state.getBoard();
         int whitePieces = state.getNumberOf(Pawn.WHITE);
         int blackPieces= state.getNumberOf(Pawn.BLACK);
+        float euristic;
         try {
             H5NeuralNetworkPredictor NN = new H5NeuralNetworkPredictor("model.h5");
+            euristic = NN.predict(calculatePieceDifference(whitePieces, blackPieces), calculateKingEscapeDistance(kingPos), calculateDangerMetric(kingPos, board), findAvailableEscapes(kingPos, board), findFreePaths(kingPos, board));
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+            euristic = 0;
         }
         // ritorna il valore della rete neurale che prende in input le funzioni private con parametri this.
-        return 0;
+        return euristic;
     }
 }

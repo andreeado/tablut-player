@@ -1,6 +1,5 @@
 package it.unibo.ai.didattica.competition.tablut.client;
 
-import it.unibo.ai.didattica.competition.tablut.domain.GameTablut; //DA MODIFICARE CON QUELLO CHE POI SARà IL GAME
 import it.unibo.ai.didattica.competition.tablut.player.ALAPlayer;
 import it.unibo.ai.didattica.competition.tablut.player.ALABlackPlayer;
 import it.unibo.ai.didattica.competition.tablut.player.ALAWhitePlayer;
@@ -18,7 +17,7 @@ public class ALAClient extends TablutClient{
     public ALAClient(String player, String name, int timeout, String ipAddress) throws UnknownHostException, IOException {
         super(player, name, timeout, ipAddress);
 
-        GameTablut game = new GameTablut();
+        GameAshtonTablut game = new GameAshtonTablut(99, 0, "garbage", "fake", "fake");
 
         if (this.getPlayer().equals(State.Turn.WHITE)) {
             alaPlayer = new ALAWhitePlayer();
@@ -62,7 +61,7 @@ public class ALAClient extends TablutClient{
     }
 
     private void printALASignature() {
-        System.out.println("ALA"); //-----------------------------------------------------------------------------------------------------------------------
+        System.out.println("ALA fast coding"); 
     }
 
     private void sendActionToServer(Action a) {
