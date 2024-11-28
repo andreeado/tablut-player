@@ -200,7 +200,7 @@ public class GameTablut implements Game {
 			state = this.checkCaptureWhite(state, a);
 		}
 		
-		this.loggGame.fine("Stato: "+state.toString());
+		// this.loggGame.fine("Stato: "+state.toString());
 		
 		return state;
 	}
@@ -586,7 +586,7 @@ public class GameTablut implements Game {
 
 	@Override
 	public void endGame(State state) {
-		this.loggGame.fine("Stato: "+state.toString());
+		// this.loggGame.fine("Stato: "+state.toString());
 	}
 
 	@Override

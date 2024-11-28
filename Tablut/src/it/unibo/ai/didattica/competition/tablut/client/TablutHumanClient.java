@@ -54,7 +54,7 @@ public class TablutHumanClient extends TablutClient {
 					this.read();
 
 					System.out.println("Current state:");
-					System.out.println(this.getCurrentState().toString());
+					// System.out.println(this.getCurrentState().toString());
 					if (this.getCurrentState().getTurn().equals(StateTablut.Turn.WHITE)) {
 						System.out.println("Player " + this.getPlayer().toString() + ", do your move: ");
 						System.out.println("From: ");
@@ -87,7 +87,7 @@ public class TablutHumanClient extends TablutClient {
 				try {
 					this.read();
 					System.out.println("Current state:");
-					System.out.println(this.getCurrentState().toString());
+					// System.out.println(this.getCurrentState().toString());
 					if (this.getCurrentState().getTurn().equals(StateTablut.Turn.BLACK)) {
 						System.out.println("Player " + this.getPlayer().toString() + ", do your move: ");
 						System.out.println("From: ");
