@@ -275,6 +275,49 @@ public class ALAHeuristic {
         return freePathsCount;
     }
 
+    /**
+     * Calculates the mobility of the king (number of valid moves).
+     * 
+     * @param kingPos The position of the king as an array [row, column].
+     * @param board   The game board represented as a 2D array of Pawns.
+     * @return The number of valid moves for the king.
+     */
+    private static int kingmobility(int[] kingPos, Pawn[][] board) {
+        int mobility = 0;
+        int[][] directions = { {-1, 0}, {1, 0}, {0, -1}, {0, 1} }; // Up, down, left, right
+
+        for (int[] dir : directions) {
+            int newX = kingPos[0];
+            int newY = kingPos[1];
+
+            while (true) {
+                newX += dir[0];
+                newY += dir[1];
+
+                // Check if the new position is within bounds
+                if (newX < 0 || newX >= 8 || newY < 0 || newY >= 8) {
+                    break;
+                }
+
+                // Stop if the square is occupied
+                if (board[newX][newY] != Pawn.EMPTY) {
+                    break;
+                }
+
+                // Stop if the king reaches an invalid area (camps or throne)
+                if (lookupTable[newX][newY] == 'C' || lookupTable[newX][newY] == 'T') {
+                    break;
+                }
+
+                // Valid move
+                mobility++;
+            }
+        }
+
+        return mobility;
+    }
+
+
     public float evaluate(State state) {
         int[] kingPos = getKingPosition(state);
         Pawn[][] board = state.getBoard();
@@ -285,7 +328,8 @@ public class ALAHeuristic {
                 calculateKingEscapeDistance(kingPos),
                 calculateDangerMetric(kingPos, state.getBoard()),
                 findAvailableEscapes(kingPos, state.getBoard()),
-                findFreePaths(kingPos, state.getBoard())
+                findFreePaths(kingPos, state.getBoard()),
+                kingmobility(kingPos, state.getBoard())
         };
         float heuristic;
         heuristic =  NeuralNetwork.getInstance().predict(input);
