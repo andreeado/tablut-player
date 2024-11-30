@@ -60,10 +60,6 @@ public class ALAClient extends TablutClient{
         client.run();
     }
 
-    private void printALASignature() {
-        System.out.println("ALA fast coding"); 
-    }
-
     private void sendActionToServer(Action a) {
         try {
             this.write(a);
@@ -83,7 +79,6 @@ public class ALAClient extends TablutClient{
         State state = new StateTablut();
         Game rules = new GameAshtonTablut(99, 0, "garbage", "fake", "fake");
         state.setTurn(State.Turn.WHITE);
-        printALASignature();
 
         System.out.println(this.getName() + ", you are player " + this.getPlayer().toString() + "!");
 

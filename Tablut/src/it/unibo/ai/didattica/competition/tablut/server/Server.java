@@ -589,7 +589,7 @@ public class Server implements Runnable {
 
 			try {
 				// aggiorna tutto e determina anche eventuali fine partita
-				state = this.game.checkMove(state, move);
+				state = this.game.checkMoveServer(state, move);
 			} catch (Exception e) {
 				// exception means error, therefore increase the error counters
 				if (state.getTurn().equalsTurn("B")) {

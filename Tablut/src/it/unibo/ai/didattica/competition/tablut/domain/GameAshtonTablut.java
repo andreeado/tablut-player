@@ -108,22 +108,17 @@ public class GameAshtonTablut implements Game {
 		// this.strangeCitadels.add("i5");
 		// this.strangeCitadels.add("e9");
 	}
-
 	@Override
-	public State checkMove(State state, Action a) {
-		/*this.loggGame.fine(a.toString());
-		// uso ActionValidator per controllare la mossa
-
+	public State checkMoveServer(State state, Action a)
+			throws BoardException, ActionException, StopException, PawnException, DiagonalException, ClimbingException,
+			ThroneException, OccupitedException, ClimbingCitadelException, CitadelException {
+		this.loggGame.fine(a.toString());
+		// controllo la mossa
 		if (a.getTo().length() != 2 || a.getFrom().length() != 2) {
 			this.loggGame.warning("Formato mossa errato");
 			throw new ActionException(a);
 		}
-		if (!actionValidator.isActionLegal(a.getRowFrom(), a.getColumnFrom(),
-				a.getRowTo(), a.getColumnTo())) {
-			this.loggGame.warning("Illegal move");
-			throw new ActionException(a);
-		}*/
-		/*int columnFrom = a.getColumnFrom();
+		int columnFrom = a.getColumnFrom();
 		int columnTo = a.getColumnTo();
 		int rowFrom = a.getRowFrom();
 		int rowTo = a.getRowTo();
@@ -268,7 +263,7 @@ public class GameAshtonTablut implements Game {
 					}
 				}
 			}
-		}*/
+		}
 
 		// se sono arrivato qui, muovo la pedina
 		state = this.movePawn(state, a);
@@ -290,7 +285,7 @@ public class GameAshtonTablut implements Game {
 		int trovati = 0;
 		for (State s : drawConditions) {
 
-			// System.out.println(s.toString());
+			System.out.println(s.toString());
 
 			if (s.equals(state)) {
 				// DEBUG: //
@@ -323,10 +318,73 @@ public class GameAshtonTablut implements Game {
 
 		this.loggGame.fine("Current draw cache size: " + this.drawConditions.size());
 
+		//this.loggGame.fine("Stato:\n" + state.toString());
+		System.out.println("Stato:\n" + state.toString());
+
+		return state;
+	}
+
+	@Override
+	public State checkMove(State state, Action a) {
+
+		State newState = state.clone();
+		// se sono arrivato qui, muovo la pedina
+		newState = this.movePawn(newState, a);
+
+		// a questo punto controllo lo stato per eventuali catture
+		if (newState.getTurn().equalsTurn("W")) {
+			newState = this.checkCaptureBlack(newState, a);
+		} else if (newState.getTurn().equalsTurn("B")) {
+			newState = this.checkCaptureWhite(newState, a);
+		}
+
+		// if something has been captured, clear cache for draws
+		if (this.movesWithutCapturing == 0) {
+			this.drawConditions.clear();
+			this.loggGame.fine("Capture! Draw cache cleared!");
+		}
+
+		// controllo pareggio
+		int trovati = 0;
+		for (State s : drawConditions) {
+
+			// System.out.println(s.toString());
+
+			if (s.equals(newState)) {
+				// DEBUG: //
+				// System.out.println("UGUALI:");
+				// System.out.println("STATO VECCHIO:\t" + s.toLinearString());
+				// System.out.println("STATO NUOVO:\t" +
+				// state.toLinearString());
+
+				trovati++;
+				if (trovati > repeated_moves_allowed) {
+					newState.setTurn(State.Turn.DRAW);
+					this.loggGame.fine("Partita terminata in pareggio per numero di stati ripetuti");
+					break;
+				}
+			} else {
+				// DEBUG: //
+				// System.out.println("DIVERSI:");
+				// System.out.println("STATO VECCHIO:\t" + s.toLinearString());
+				// System.out.println("STATO NUOVO:\t" +
+				// state.toLinearString());
+			}
+		}
+		if (trovati > 0) {
+			this.loggGame.fine("Equal states found: " + trovati);
+		}
+		if (cache_size >= 0 && this.drawConditions.size() > cache_size) {
+			this.drawConditions.remove(0);
+		}
+		this.drawConditions.add(newState.clone());
+
+		this.loggGame.fine("Current draw cache size: " + this.drawConditions.size());
+
 		// this.loggGame.fine("Stato:\n" + state.toString());
 		// System.out.println("Stato:\n" + state.toString());
 
-		return state;
+		return newState;
 	}
 	public ActionValidator getValidator() {
 		return actionValidator;
