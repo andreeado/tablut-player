@@ -194,6 +194,10 @@ public class ALAHeuristic {
             }
         }
 
+        if (lookupTable[kingPos[0]][kingPos[1]] == 'N' || lookupTable[kingPos[0]][kingPos[1]] == 'T'){
+            dangerMetric--;
+        }
+
         return dangerMetric;
     }
 
