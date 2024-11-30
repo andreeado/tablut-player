@@ -15,7 +15,7 @@ public class PrincipalVariationSearch {
     private static final float NEG_INFINITY = -INFINITY;
     private final ALAHeuristic heuristic;
     private final Game game;
-    private static final long TIME_BUFFER_MS = 2000; // 2 second buffer
+    private static final long TIME_BUFFER_MS = 1000; // 2 second buffer
     private List<Action> previousPV;
 
     public PrincipalVariationSearch(Game game) {
@@ -32,9 +32,10 @@ public class PrincipalVariationSearch {
      * @param isMaxPlayer Indicates whether the current player is the maximizing player.
      * @return The best move determined by the search.
      */
-    public Action findBestMove(State currentState, List<Action> validMoves, boolean isMaxPlayer){
+    public Action findBestMove(State currentState, List<Action> validMoves, boolean isMaxPlayer, int timeout){
         long startTime = System.currentTimeMillis();
-        long timeLimit = startTime + 58000; // 58 seconds (leaving 2s buffer)
+        long ziopera = (timeout*1000)-TIME_BUFFER_MS;
+        long timeLimit = startTime + ziopera; 
         Action bestMove = validMoves.get(0);
         Action currentBestMove = bestMove;
         int currentDepth = 1;
@@ -56,12 +57,11 @@ public class PrincipalVariationSearch {
             //System.err.println("Search interrupted, using best move found so far at depth "+ currentDepth);
         }
 
-        long endTime = System.currentTimeMillis();
+        //long endTime = System.currentTimeMillis();
         //System.out.println("Search took " + (endTime - startTime) + "ms, reached depth " + (currentDepth - 1));
         return bestMove;
     }
     private List<Action> orderMoves(State state, List<Action> moves, boolean isMaxPlayer) {
-        // Store move scores for sorting
         Map<Action, Float> moveScores = new HashMap<>();
 
         // shallow evaluation
@@ -83,7 +83,7 @@ public class PrincipalVariationSearch {
         // 1. Previous principal variation (if available)
         // 2. Heuristic evaluation
         orderedMoves.sort((a, b) -> {
-            // First, prioritize moves from previous PV
+            // prioritize moves from previous PV
             boolean aInPV = previousPV.contains(a);
             boolean bInPV = previousPV.contains(b);
             if (aInPV && !bInPV) return -1; // a first
@@ -118,7 +118,7 @@ public class PrincipalVariationSearch {
         Action bestMove = null;
         float alpha = NEG_INFINITY;
         float beta = INFINITY;
-        // Order moves before starting the deep search
+        // Order moves before starting the search
         List<Action> orderedMoves = orderMoves(currentState, validMoves, isMaxPlayer);
         List<Action> currentPV = new ArrayList<>();
 
@@ -136,7 +136,7 @@ public class PrincipalVariationSearch {
                     bestScore = score;
                     bestMove = move;
                     alpha = Math.max(alpha, score);
-                    // Update principal variation
+                    // Update PV List
                     currentPV.clear();
                     currentPV.add(move);
                 }
