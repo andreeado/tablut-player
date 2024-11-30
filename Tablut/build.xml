@@ -13,13 +13,6 @@
             <classpath>
                 <pathelement path="lib/gson-2.2.2.jar" />
                 <pathelement path="lib/commons-cli-1.4.jar" />
-                 <pathelement location="lib/deeplearning4j-nn-1.0.0-M2.jar"/>
-                <pathelement location="lib/nd4j-native-platform-1.0.0-M2.1.jar"/>
-                <pathelement location="lib/nd4j-api-1.0.0-M2.1.jar"/>
-                <pathelement location="lib/nd4j-native-1.0.0-M2.1.jar"/>
-                <pathelement location="lib/slf4j-api-1.7.32.jar" />
-                <pathelement location="lib/slf4j-simple-1.7.32.jar" />
-                <pathelement location="lib/commons-io-2.11.0.jar" />
             </classpath>
         </javac>
         <copy todir="build">
@@ -35,10 +28,6 @@
             <classpath>
                 <pathelement location="lib/gson-2.2.2.jar"/>
                 <pathelement location="lib/commons-cli-1.4.jar"/>
-                 <pathelement location="lib/deeplearning4j-nn-1.0.0-M2.jar"/>
-                <pathelement location="lib/nd4j-native-platform-1.0.0-M2.1.jar"/>
-                <pathelement location="lib/nd4j-api-1.0.0-M2.1.jar"/>
-                <pathelement location="lib/nd4j-native-1.0.0-M2.1.jar"/>
                 <pathelement location="lib/commons-io-2.11.0.jar" />
 
                 <pathelement location="build"/>
@@ -64,31 +53,28 @@
             <classpath>
                 <pathelement location="lib/gson-2.2.2.jar"/>
                 <pathelement location="lib/commons-cli-1.4.jar"/>
-                 <pathelement location="lib/deeplearning4j-nn-1.0.0-M2.jar"/>
-                <pathelement location="lib/nd4j-native-platform-1.0.0-M2.1.jar"/>
-                <pathelement location="lib/nd4j-api-1.0.0-M2.1.jar"/>
-                <pathelement location="lib/nd4j-native-1.0.0-M2.1.jar"/>
-                <pathelement location="lib/slf4j-api-1.7.32.jar" />
-                <pathelement location="lib/slf4j-simple-1.7.32.jar" />
                 <pathelement location="lib/commons-io-2.11.0.jar" />
 
                 <pathelement location="build"/>
             </classpath>
         </java>
     </target>
-
+    <target name="ALA-jar">
+        <jar destfile="ala.jar" filesetmanifest="mergewithoutmain">
+            <manifest>
+                <attribute name="Main-Class" value="it.unibo.ai.didattica.competition.tablut.client.ALAClient"/>
+                <attribute name="Class-Path" value="."/>
+            </manifest>
+            <fileset dir="build"/>
+            <zipfileset excludes="META-INF/*.SF" src="lib/gson-2.2.2.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="lib/commons-cli-1.4.jar"/>
+        </jar>
+    </target>
     <target name="ALAwhite">
         <java classname="it.unibo.ai.didattica.competition.tablut.client.ALAWhiteClient" fork="true">
             <classpath>
                 <pathelement location="lib/gson-2.2.2.jar"/>
-                 <pathelement location="lib/deeplearning4j-nn-1.0.0-M2.jar"/>
-                <pathelement location="lib/nd4j-native-platform-1.0.0-M2.1.jar"/>
-                <pathelement location="lib/nd4j-api-1.0.0-M2.1.jar"/>
-                <pathelement location="lib/nd4j-native-1.0.0-M2.1.jar"/>
-                <pathelement location="lib/slf4j-api-1.7.32.jar" />
-                <pathelement location="lib/slf4j-simple-1.7.32.jar" />
                 <pathelement location="lib/commons-io-2.11.0.jar" />
-
                 <pathelement location="build"/>
             </classpath>
         </java>
@@ -98,80 +84,9 @@
         <java classname="it.unibo.ai.didattica.competition.tablut.client.ALABlackClient" fork="true">
             <classpath>
                 <pathelement location="lib/gson-2.2.2.jar"/>
-                 <pathelement location="lib/deeplearning4j-nn-1.0.0-M2.jar"/>
-                <pathelement location="lib/nd4j-native-platform-1.0.0-M2.1.jar"/>
-                <pathelement location="lib/nd4j-api-1.0.0-M2.1.jar"/>
-                <pathelement location="lib/nd4j-native-1.0.0-M2.1.jar"/>
-                <pathelement location="lib/slf4j-api-1.7.32.jar" />
-                <pathelement location="lib/slf4j-simple-1.7.32.jar" />
                 <pathelement location="lib/commons-io-2.11.0.jar" />
-
                 <pathelement location="build"/>
             </classpath>
         </java>
     </target>
-
-    <target name="randomwhite">
-        <java classname="it.unibo.ai.didattica.competition.tablut.client.TablutRandomWhiteClient" fork="true">
-            <classpath>
-                <pathelement location="lib/gson-2.2.2.jar"/>
-                 <pathelement location="lib/deeplearning4j-nn-1.0.0-M2.jar"/>
-                <pathelement location="lib/nd4j-native-platform-1.0.0-M2.1.jar"/>
-                <pathelement location="lib/nd4j-api-1.0.0-M2.1.jar"/>
-                <pathelement location="lib/nd4j-native-1.0.0-M2.1.jar"/>
-                <pathelement location="lib/slf4j-api-1.7.32.jar" />
-                <pathelement location="lib/slf4j-simple-1.7.32.jar" />
-                <pathelement location="lib/commons-io-2.11.0.jar" />
-
-                <pathelement location="build"/>
-            </classpath>
-        </java>
-    </target>
-
-    <target name="randomblack">
-        <java classname="it.unibo.ai.didattica.competition.tablut.client.TablutRandomBlackClient" fork="true">
-            <classpath>
-                <pathelement location="lib/gson-2.2.2.jar"/>
-                 <pathelement location="lib/deeplearning4j-nn-1.0.0-M2.jar"/>
-                <pathelement location="lib/nd4j-native-platform-1.0.0-M2.1.jar"/>
-                <pathelement location="lib/nd4j-api-1.0.0-M2.1.jar"/>
-                <pathelement location="lib/nd4j-native-1.0.0-M2.1.jar"/>
-                <pathelement location="lib/slf4j-api-1.7.32.jar" />
-                <pathelement location="lib/slf4j-simple-1.7.32.jar" />
-                <pathelement location="lib/commons-io-2.11.0.jar" />
-
-                <pathelement location="build"/>
-            </classpath>
-        </java>
-    </target>
-
-    <target name="random-jar">
-        <jar destfile="random.jar" filesetmanifest="mergewithoutmain">
-            <manifest>
-                <attribute name="Main-Class" value="it.unibo.ai.didattica.competition.tablut.client.TablutRandomClient"/>
-                <attribute name="Class-Path" value="."/>
-            </manifest>
-            <fileset dir="build"/>
-            <zipfileset excludes="META-INF/*.SF" src="lib/gson-2.2.2.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="lib/commons-cli-1.4.jar"/>
-        </jar>
-    </target>
-
-    <target name="tester">
-        <java classname="it.unibo.ai.didattica.competition.tablut.tester.Tester" fork="true">
-            <classpath>
-                <pathelement location="lib/gson-2.2.2.jar"/>
-                 <pathelement location="lib/deeplearning4j-nn-1.0.0-M2.jar"/>
-                <pathelement location="lib/nd4j-native-platform-1.0.0-M2.1.jar"/>
-                <pathelement location="lib/nd4j-api-1.0.0-M2.1.jar"/>
-                <pathelement location="lib/nd4j-native-1.0.0-M2.1.jar"/>
-                <pathelement location="lib/slf4j-api-1.7.32.jar" />
-                <pathelement location="lib/slf4j-simple-1.7.32.jar" />
-                <pathelement location="lib/commons-io-2.11.0.jar" />
-
-                <pathelement location="build"/>
-            </classpath>
-        </java>
-    </target>
-
 </project>
