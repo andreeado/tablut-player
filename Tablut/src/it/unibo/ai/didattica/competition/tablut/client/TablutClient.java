@@ -162,4 +162,8 @@ public abstract class TablutClient implements Runnable {
 	public void read() throws ClassNotFoundException, IOException {
 		this.currentState = this.gson.fromJson(StreamUtils.readString(in), StateTablut.class);
 	}
+
+	public int getTimeout() {
+		return this.timeout;
+	}
 }

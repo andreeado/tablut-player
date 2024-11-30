@@ -92,6 +92,7 @@ public class ALAClient extends TablutClient{
             }
             //System.out.println("\nThe current state is:");
             state = this.getCurrentState();
+            int timeout = this.getTimeout();
             // System.out.println(state.toString());
 
             if (state.getTurn().equals(StateTablut.Turn.BLACKWIN)) {
@@ -131,7 +132,7 @@ public class ALAClient extends TablutClient{
 
                 // System.out.println("Legal moves: " + legalMoves.size());
                 // System.out.println("sate: " + state.toString());
-
+                alaPlayer.setTimer(timeout);
                 alaPlayer.setState(state, legalMoves);
 
                 Action selectedAction = alaPlayer.getNextMove();

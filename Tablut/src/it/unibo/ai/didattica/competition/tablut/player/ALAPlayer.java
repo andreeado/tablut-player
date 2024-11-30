@@ -14,6 +14,7 @@ public abstract class ALAPlayer {
     protected PrincipalVariationSearch pvs;
     protected Game gameRules;
     protected boolean isMaxPlayer;
+    protected int timeout;
 
     public ALAPlayer(boolean isMaxPlayer) {
         this.gameRules = new GameAshtonTablut(99, 0, "garbage", "fake", "fake");
@@ -26,10 +27,14 @@ public abstract class ALAPlayer {
         this.validMoves = validMoves;
     }
 
+    public void setTimer(int timeout) {
+        this.timeout = timeout;
+    }
+
     public Action getNextMove(){
         if (currentState == null || validMoves == null || validMoves.isEmpty()) {
             throw new IllegalStateException("State or valid moves not properly initialized");
         }
-        return pvs.findBestMove(currentState, validMoves, isMaxPlayer);
+        return pvs.findBestMove(currentState, validMoves, isMaxPlayer, timeout);
     }
 }

@@ -15,7 +15,7 @@ public class PrincipalVariationSearch {
     private static final float NEG_INFINITY = -INFINITY;
     private final ALAHeuristic heuristic;
     private final Game game;
-    private static final long TIME_BUFFER_MS = 2000; // 2 second buffer
+    private static final long TIME_BUFFER_MS = 1000; // 2 second buffer
     private List<Action> previousPV;
 
     public PrincipalVariationSearch(Game game) {
@@ -32,9 +32,10 @@ public class PrincipalVariationSearch {
      * @param isMaxPlayer Indicates whether the current player is the maximizing player.
      * @return The best move determined by the search.
      */
-    public Action findBestMove(State currentState, List<Action> validMoves, boolean isMaxPlayer){
+    public Action findBestMove(State currentState, List<Action> validMoves, boolean isMaxPlayer, int timeout){
         long startTime = System.currentTimeMillis();
-        long timeLimit = startTime + 58000; // 58 seconds (leaving 2s buffer)
+        long ziopera = (timeout*1000)-TIME_BUFFER_MS;
+        long timeLimit = startTime + ziopera; 
         Action bestMove = validMoves.get(0);
         Action currentBestMove = bestMove;
         int currentDepth = 1;
