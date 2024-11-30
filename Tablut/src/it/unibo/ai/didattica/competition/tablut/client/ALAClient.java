@@ -80,7 +80,7 @@ public class ALAClient extends TablutClient{
         Game rules = new GameAshtonTablut(99, 0, "garbage", "fake", "fake");
         state.setTurn(State.Turn.WHITE);
 
-        System.out.println(this.getName() + ", you are player " + this.getPlayer().toString() + "!");
+        System.out.println(this.getName() + ", you are player " + this.getPlayer().toString());
 
         while(true) {
             try {
@@ -90,7 +90,7 @@ public class ALAClient extends TablutClient{
                 e1.printStackTrace();
                 System.exit(1);
             }
-            System.out.println("\nThe current state is:");
+            //System.out.println("\nThe current state is:");
             state = this.getCurrentState();
             // System.out.println(state.toString());
 
@@ -121,6 +121,7 @@ public class ALAClient extends TablutClient{
 
             if (this.getPlayer().equals(this.getCurrentState().getTurn())) {
                 System.out.println("Your turn");
+                System.out.println("Thinking...");
                 // get legal actions using the validator
                 List<Action> legalMoves = rules.getValidator().getLegalActions();
 
@@ -141,7 +142,7 @@ public class ALAClient extends TablutClient{
                     throw new IllegalStateException("NO ACTION SELECTED");
                 }
                 //Action selectedAction = legalMoves.get(new Random().nextInt(legalMoves.size()));
-                System.out.println("Mossa scelta: " + selectedAction.toString());
+                System.out.println("Chosen action: " + selectedAction.toString());
                 sendActionToServer(selectedAction);
             } else {
                 System.out.println("Waiting for opponent ...");
