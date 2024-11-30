@@ -112,7 +112,7 @@ public class GameAshtonTablut implements Game {
 	public State checkMoveServer(State state, Action a)
 			throws BoardException, ActionException, StopException, PawnException, DiagonalException, ClimbingException,
 			ThroneException, OccupitedException, ClimbingCitadelException, CitadelException {
-		this.loggGame.fine(a.toString());
+		//this.loggGame.fine(a.toString());
 		// controllo la mossa
 		if (a.getTo().length() != 2 || a.getFrom().length() != 2) {
 			this.loggGame.warning("Formato mossa errato");
@@ -278,7 +278,7 @@ public class GameAshtonTablut implements Game {
 		// if something has been captured, clear cache for draws
 		if (this.movesWithutCapturing == 0) {
 			this.drawConditions.clear();
-			this.loggGame.fine("Capture! Draw cache cleared!");
+			//this.loggGame.fine("Capture! Draw cache cleared!");
 		}
 
 		// controllo pareggio
@@ -297,7 +297,7 @@ public class GameAshtonTablut implements Game {
 				trovati++;
 				if (trovati > repeated_moves_allowed) {
 					state.setTurn(State.Turn.DRAW);
-					this.loggGame.fine("Partita terminata in pareggio per numero di stati ripetuti");
+					//this.loggGame.fine("Partita terminata in pareggio per numero di stati ripetuti");
 					break;
 				}
 			} else {
@@ -309,14 +309,14 @@ public class GameAshtonTablut implements Game {
 			}
 		}
 		if (trovati > 0) {
-			this.loggGame.fine("Equal states found: " + trovati);
+			//this.loggGame.fine("Equal states found: " + trovati);
 		}
 		if (cache_size >= 0 && this.drawConditions.size() > cache_size) {
 			this.drawConditions.remove(0);
 		}
 		this.drawConditions.add(state.clone());
 
-		this.loggGame.fine("Current draw cache size: " + this.drawConditions.size());
+		//this.loggGame.fine("Current draw cache size: " + this.drawConditions.size());
 
 		//this.loggGame.fine("Stato:\n" + state.toString());
 		System.out.println("Stato:\n" + state.toString());
@@ -341,7 +341,7 @@ public class GameAshtonTablut implements Game {
 		// if something has been captured, clear cache for draws
 		if (this.movesWithutCapturing == 0) {
 			this.drawConditions.clear();
-			this.loggGame.fine("Capture! Draw cache cleared!");
+			//this.loggGame.fine("Capture! Draw cache cleared!");
 		}
 
 		// controllo pareggio
@@ -372,7 +372,7 @@ public class GameAshtonTablut implements Game {
 			}
 		}
 		if (trovati > 0) {
-			this.loggGame.fine("Equal states found: " + trovati);
+			//this.loggGame.fine("Equal states found: " + trovati);
 		}
 		if (cache_size >= 0 && this.drawConditions.size() > cache_size) {
 			this.drawConditions.remove(0);
@@ -420,7 +420,7 @@ public class GameAshtonTablut implements Game {
 								&& !(a.getColumnTo() - 2 == 0 && a.getRowTo() == 4)))) {
 			state.removePawn(a.getRowTo(), a.getColumnTo() - 1);
 			this.movesWithutCapturing = -1;
-			this.loggGame.fine("Pedina nera rimossa in: " + state.getBox(a.getRowTo(), a.getColumnTo() - 1));
+			//this.loggGame.fine("Pedina nera rimossa in: " + state.getBox(a.getRowTo(), a.getColumnTo() - 1));
 		}
 		// controllo se mangio sopra
 		if (a.getRowTo() > 1 && state.getPawn(a.getRowTo() - 1, a.getColumnTo()).equalsPawn("B")
@@ -434,7 +434,7 @@ public class GameAshtonTablut implements Game {
 								&& !(a.getColumnTo() == 0 && a.getRowTo() - 2 == 4)))) {
 			state.removePawn(a.getRowTo() - 1, a.getColumnTo());
 			this.movesWithutCapturing = -1;
-			this.loggGame.fine("Pedina nera rimossa in: " + state.getBox(a.getRowTo() - 1, a.getColumnTo()));
+			//this.loggGame.fine("Pedina nera rimossa in: " + state.getBox(a.getRowTo() - 1, a.getColumnTo()));
 		}
 		// controllo se mangio sotto
 		if (a.getRowTo() < state.getBoard().length - 2
@@ -449,14 +449,14 @@ public class GameAshtonTablut implements Game {
 								&& !(a.getColumnTo() == 0 && a.getRowTo() + 2 == 4)))) {
 			state.removePawn(a.getRowTo() + 1, a.getColumnTo());
 			this.movesWithutCapturing = -1;
-			this.loggGame.fine("Pedina nera rimossa in: " + state.getBox(a.getRowTo() + 1, a.getColumnTo()));
+			//this.loggGame.fine("Pedina nera rimossa in: " + state.getBox(a.getRowTo() + 1, a.getColumnTo()));
 		}
 		// controllo se ho vinto
 		if (a.getRowTo() == 0 || a.getRowTo() == state.getBoard().length - 1 || a.getColumnTo() == 0
 				|| a.getColumnTo() == state.getBoard().length - 1) {
 			if (state.getPawn(a.getRowTo(), a.getColumnTo()).equalsPawn("K")) {
 				state.setTurn(State.Turn.WHITEWIN);
-				this.loggGame.fine("Bianco vince con re in " + a.getTo());
+				//this.loggGame.fine("Bianco vince con re in " + a.getTo());
 			}
 		}
 		// TODO: implement the winning condition of the capture of the last
@@ -676,22 +676,22 @@ public class GameAshtonTablut implements Game {
 			if (state.getPawn(a.getRowTo(), a.getColumnTo() + 2).equalsPawn("B")) {
 				state.removePawn(a.getRowTo(), a.getColumnTo() + 1);
 				this.movesWithutCapturing = -1;
-				this.loggGame.fine("Pedina bianca rimossa in: " + state.getBox(a.getRowTo(), a.getColumnTo() + 1));
+				//this.loggGame.fine("Pedina bianca rimossa in: " + state.getBox(a.getRowTo(), a.getColumnTo() + 1));
 			}
 			if (state.getPawn(a.getRowTo(), a.getColumnTo() + 2).equalsPawn("T")) {
 				state.removePawn(a.getRowTo(), a.getColumnTo() + 1);
 				this.movesWithutCapturing = -1;
-				this.loggGame.fine("Pedina bianca rimossa in: " + state.getBox(a.getRowTo(), a.getColumnTo() + 1));
+				//this.loggGame.fine("Pedina bianca rimossa in: " + state.getBox(a.getRowTo(), a.getColumnTo() + 1));
 			}
 			if (this.citadels.contains(state.getBox(a.getRowTo(), a.getColumnTo() + 2))) {
 				state.removePawn(a.getRowTo(), a.getColumnTo() + 1);
 				this.movesWithutCapturing = -1;
-				this.loggGame.fine("Pedina bianca rimossa in: " + state.getBox(a.getRowTo(), a.getColumnTo() + 1));
+				//this.loggGame.fine("Pedina bianca rimossa in: " + state.getBox(a.getRowTo(), a.getColumnTo() + 1));
 			}
 			if (state.getBox(a.getRowTo(), a.getColumnTo() + 2).equals("e5")) {
 				state.removePawn(a.getRowTo(), a.getColumnTo() + 1);
 				this.movesWithutCapturing = -1;
-				this.loggGame.fine("Pedina bianca rimossa in: " + state.getBox(a.getRowTo(), a.getColumnTo() + 1));
+				//this.loggGame.fine("Pedina bianca rimossa in: " + state.getBox(a.getRowTo(), a.getColumnTo() + 1));
 			}
 
 		}
@@ -708,7 +708,7 @@ public class GameAshtonTablut implements Game {
 						|| (state.getBox(a.getRowTo(), a.getColumnTo() - 2).equals("e5")))) {
 			state.removePawn(a.getRowTo(), a.getColumnTo() - 1);
 			this.movesWithutCapturing = -1;
-			this.loggGame.fine("Pedina bianca rimossa in: " + state.getBox(a.getRowTo(), a.getColumnTo() - 1));
+			//this.loggGame.fine("Pedina bianca rimossa in: " + state.getBox(a.getRowTo(), a.getColumnTo() - 1));
 		}
 		return state;
 	}
@@ -722,7 +722,7 @@ public class GameAshtonTablut implements Game {
 						|| (state.getBox(a.getRowTo() - 2, a.getColumnTo()).equals("e5")))) {
 			state.removePawn(a.getRowTo() - 1, a.getColumnTo());
 			this.movesWithutCapturing = -1;
-			this.loggGame.fine("Pedina bianca rimossa in: " + state.getBox(a.getRowTo() - 1, a.getColumnTo()));
+			//this.loggGame.fine("Pedina bianca rimossa in: " + state.getBox(a.getRowTo() - 1, a.getColumnTo()));
 		}
 		return state;
 	}
@@ -737,7 +737,7 @@ public class GameAshtonTablut implements Game {
 						|| (state.getBox(a.getRowTo() + 2, a.getColumnTo()).equals("e5")))) {
 			state.removePawn(a.getRowTo() + 1, a.getColumnTo());
 			this.movesWithutCapturing = -1;
-			this.loggGame.fine("Pedina bianca rimossa in: " + state.getBox(a.getRowTo() + 1, a.getColumnTo()));
+			//this.loggGame.fine("Pedina bianca rimossa in: " + state.getBox(a.getRowTo() + 1, a.getColumnTo()));
 		}
 		return state;
 	}
@@ -761,7 +761,7 @@ public class GameAshtonTablut implements Game {
 		State.Pawn pawn = state.getPawn(a.getRowFrom(), a.getColumnFrom());
 		State.Pawn[][] newBoard = state.getBoard();
 		// State newState = new State();
-		this.loggGame.fine("Movimento pedina");
+		//this.loggGame.fine("Movimento pedina");
 		// libero il trono o una casella qualunque
 		if (a.getColumnFrom() == 4 && a.getRowFrom() == 4) {
 			newBoard[a.getRowFrom()][a.getColumnFrom()] = State.Pawn.THRONE;

@@ -105,10 +105,10 @@ public class ALAClient extends TablutClient{
 
             if (state.getTurn().equals(StateTablut.Turn.WHITEWIN)) {
                 if (this.getPlayer().equals(State.Turn.WHITE)) {
-                    System.out.println("WIN!");
+                    System.out.println("YOU WIN!");
                     System.exit(0);
                 }
-                System.out.println("LOSE!");
+                System.out.println("YOU LOSE!");
                 System.exit(0);
             }
 
