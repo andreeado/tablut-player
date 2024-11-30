@@ -320,6 +320,18 @@ public class ALAHeuristic {
 
     public float evaluate(State state) {
         int[] kingPos = getKingPosition(state);
+        // Check terminal states first
+        if (state.getTurn().equals(State.Turn.BLACKWIN)) {
+            return Float.NEGATIVE_INFINITY;
+        } else if (state.getTurn().equals(State.Turn.WHITEWIN)) {
+            return Float.POSITIVE_INFINITY;
+        } else if (state.getTurn().equals(State.Turn.DRAW)) {
+            return 0;
+        }
+        // Get king position and check if king is captured
+        if (kingPos == null || (kingPos[0] == -1 && kingPos[1] == -1)) {
+            return Float.NEGATIVE_INFINITY; // King is captured
+        }
         Pawn[][] board = state.getBoard();
         int whitePieces = state.getNumberOf(Pawn.WHITE);
         int blackPieces= state.getNumberOf(Pawn.BLACK);

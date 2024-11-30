@@ -68,11 +68,12 @@ public class GameTablut implements Game {
 	 * @throws ThroneException try to move a pawn into the throne box
 	 * @throws OccupitedException try to move a pawn into an ccupited box
 	 */
-	public State checkMove(State state, Action a)
+	public State checkMoveServer(State state, Action a)throws BoardException, ActionException, StopException, PawnException, DiagonalException, ClimbingException,
+			ThroneException, OccupitedException, ClimbingCitadelException, CitadelException
 	{
 		//this.loggGame.fine(a.toString());
 		//controllo la mossa
-		/*if(a.getTo().length()!=2 || a.getFrom().length()!=2)
+		if(a.getTo().length()!=2 || a.getFrom().length()!=2)
 		{
 			this.loggGame.warning("Formato mossa errato");
 			throw new ActionException(a);
@@ -185,7 +186,7 @@ public class GameTablut implements Game {
 					}
 				}
 			}
-		}*/
+		}
 		
 		//se sono arrivato qui, muovo la pedina
 		state = this.movePawn(state, a);
@@ -202,6 +203,28 @@ public class GameTablut implements Game {
 		
 		// this.loggGame.fine("Stato: "+state.toString());
 		
+		return state;
+	}
+	public State checkMove(State state, Action a)
+	{
+		//this.loggGame.fine(a.toString());
+		//controllo la mossa
+
+		//se sono arrivato qui, muovo la pedina
+		state = this.movePawn(state, a);
+
+		//a questo punto controllo lo stato per eventuali catture
+		if(state.getTurn().equalsTurn("W"))
+		{
+			state = this.checkCaptureBlack(state, a);
+		}
+		if(state.getTurn().equalsTurn("B"))
+		{
+			state = this.checkCaptureWhite(state, a);
+		}
+
+		// this.loggGame.fine("Stato: "+state.toString());
+
 		return state;
 	}
 

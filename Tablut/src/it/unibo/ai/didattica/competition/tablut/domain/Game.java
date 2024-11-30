@@ -19,7 +19,11 @@ import it.unibo.ai.didattica.competition.tablut.exceptions.ThroneException;
  */
 public interface Game {
 
-	/**
+    State checkMoveServer(State state, Action a)
+            throws BoardException, ActionException, StopException, PawnException, DiagonalException, ClimbingException,
+            ThroneException, OccupitedException, ClimbingCitadelException, CitadelException;
+
+    /**
 	 * This method checks an action in a state: if it is correct the state is
 	 * going to be changed, if it is wrong it throws a specific exception
 	 * 
