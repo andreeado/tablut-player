@@ -3,21 +3,25 @@ import it.unibo.ai.didattica.competition.tablut.domain.Action;
 import it.unibo.ai.didattica.competition.tablut.domain.Game;
 import it.unibo.ai.didattica.competition.tablut.domain.State;
 import it.unibo.ai.didattica.competition.tablut.heuristic.ALAHeuristic;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class PrincipalVariationSearch {
     private static final float INFINITY = 1000000;
     private static final float NEG_INFINITY = -INFINITY;
-    private final int maxDepth;
     private final ALAHeuristic heuristic;
-    private Game game;
+    private final Game game;
     private static final long TIME_BUFFER_MS = 2000; // 2 second buffer for safety
+    private List<Action> previousPV;
 
     public PrincipalVariationSearch(Game game) {
-        this.maxDepth = 5;
         this.heuristic = new ALAHeuristic();
         this.game = game;
+        this.previousPV = new ArrayList<>();
     }
 
     /**
@@ -45,6 +49,7 @@ public class PrincipalVariationSearch {
                     currentDepth++;
                 } else {
                     // Search at this depth didn't complete in time
+                    System.out.println("NOT completed search at depth: " + currentDepth);
                     return bestMove;
                 }
             }
@@ -57,6 +62,46 @@ public class PrincipalVariationSearch {
 
         return bestMove;
     }
+    private List<Action> orderMoves(State state, List<Action> moves, boolean isMaxPlayer) {
+        // Store move scores for sorting
+        Map<Action, Float> moveScores = new HashMap<>();
+
+        // First, evaluate all moves with a shallow evaluation
+        for (Action move : moves) {
+            State newState = game.checkMove(state, move);
+            float score = heuristic.evaluate(newState);
+            // For black, we want to minimize the score
+            moveScores.put(move, isMaxPlayer ? score : -score);
+        }
+
+        // Create new list for ordered moves
+        List<Action> orderedMoves = new ArrayList<>(moves);
+
+        // Sort moves based on:
+        // 1. Previous principal variation (if available)
+        // 2. Heuristic evaluation
+        orderedMoves.sort((a, b) -> {
+            // First, prioritize moves from previous PV
+            boolean aInPV = previousPV.contains(a);
+            boolean bInPV = previousPV.contains(b);
+            if (aInPV && !bInPV) return -1; // a first
+            if (!aInPV && bInPV) return 1; // b first
+            if (aInPV) {
+                return previousPV.indexOf(a) - previousPV.indexOf(b);
+            }
+
+            // Then sort by heuristic score
+            float scoreA = moveScores.getOrDefault(a, 0f);
+            float scoreB = moveScores.getOrDefault(b, 0f);
+            if (isMaxPlayer) {
+                return Float.compare(scoreB, scoreA); // Higher scores first for Max
+            } else {
+                return Float.compare(scoreA, scoreB); // Lower scores first for Min
+            }
+        });
+
+        return orderedMoves;
+    }
 
     private Action findMoveAtDepth(State currentState, List<Action> validMoves, boolean isMaxPlayer,
                                    int depth, long timeLimit) {
@@ -64,9 +109,12 @@ public class PrincipalVariationSearch {
         Action bestMove = null;
         float alpha = NEG_INFINITY;
         float beta = INFINITY;
+        // Order moves before starting the deep search
+        List<Action> orderedMoves = orderMoves(currentState, validMoves, isMaxPlayer);
+        List<Action> currentPV = new ArrayList<>();
 
-        for (Action move : validMoves) {
-            System.out.println("MOVE: " + move);
+        for (Action move : orderedMoves) {
+            //System.out.println("MOVE: " + move);
             if (System.currentTimeMillis() >= timeLimit) {
                 return null; // Time is running out, abort this depth
             }
@@ -79,12 +127,18 @@ public class PrincipalVariationSearch {
                     bestScore = score;
                     bestMove = move;
                     alpha = Math.max(alpha, score);
+                    // Update principal variation
+                    currentPV.clear();
+                    currentPV.add(move);
                 }
             } catch (Exception e) {
                 System.err.println("Error evaluating move: " + e.getMessage());
             }
         }
-
+        // Store current PV for next iteration
+        if (bestMove != null) {
+            previousPV = currentPV;
+        }
         return bestMove;
     }
     /**
@@ -117,10 +171,6 @@ public class PrincipalVariationSearch {
         boolean isFirstMove = true;
 
         for (Action move : possibleMoves) {
-            // if (System.currentTimeMillis() >= timeLimit - TIME_BUFFER_MS) {
-            //     throw new RuntimeException("cilato Time limit reached");
-            // }
-
             try {
                 State newState = game.checkMove(state, move);
                 float score;
@@ -142,13 +192,10 @@ public class PrincipalVariationSearch {
                     break;
                 }
             } catch (RuntimeException e) {
-                System.err.println("ultima call del treno");
+                System.err.println("Time limit");
                 throw e; // Propagate time limit exceptions
-            } catch (Exception e) {
-                System.err.println("bestemmie Error in PVS search");
             }
         }
-
         return bestScore;
     }
 
@@ -157,17 +204,4 @@ public class PrincipalVariationSearch {
                 state.getTurn().equals(State.Turn.WHITEWIN) ||
                 state.getTurn().equals(State.Turn.DRAW);
     }
-    /**
-     * Reorders the moves to prioritize those in the principal variation.
-     *
-     * @param moves              The list of valid moves to reorder.
-     * @param principalVariation The principal variation from the previous iteration.
-     */
-    private void reorderMoves(List<Action> moves, List<Action> principalVariation) {
-        if (principalVariation.isEmpty()) return;
-
-        Action bestMove = principalVariation.get(0);
-        moves.sort((a, b) -> a.equals(bestMove) ? -1 : (b.equals(bestMove) ? 1 : 0));
-    }
 }
-

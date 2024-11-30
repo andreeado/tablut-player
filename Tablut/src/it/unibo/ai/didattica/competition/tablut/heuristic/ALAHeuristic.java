@@ -287,10 +287,8 @@ public class ALAHeuristic {
                 findAvailableEscapes(kingPos, state.getBoard()),
                 findFreePaths(kingPos, state.getBoard())
         };
-        float euristic;
-        //H5NeuralNetworkPredictor NN = new H5NeuralNetworkPredictor("/home/sharp/tablut-player/Tablut/src/it/unibo/ai/didattica/competition/tablut/heuristic/model.h5");
-        euristic =  NeuralNetwork.getInstance().predict(input);
-        // ritorna il valore della rete neurale che prende in input le funzioni private con parametri this.
-        return euristic;
+        float heuristic;
+        heuristic =  NeuralNetwork.getInstance().predict(input);
+        return heuristic;
     }
 }
