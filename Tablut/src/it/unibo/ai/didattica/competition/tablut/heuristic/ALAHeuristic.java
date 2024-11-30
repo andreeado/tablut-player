@@ -218,7 +218,7 @@ public class ALAHeuristic {
             // Controlla se la posizione di fuga è vuota
             if (board[x][y] == Pawn.EMPTY) {
                 // Controlla il lato opposto rispetto al bordo
-                if (!((x == 0 && (board[1][y] == Pawn.BLACK || board[0][y] == Pawn.BLACK|)) ||  // Fuga sul bordo superiore
+                if (!((x == 0 && (board[1][y] == Pawn.BLACK || board[0][y] == Pawn.BLACK)) ||  // Fuga sul bordo superiore
                       (x == 8 && (board[7][y] == Pawn.BLACK || board[8][y] == Pawn.BLACK)) ||  // Fuga sul bordo inferiore
                       (y == 0 && (board[x][1] == Pawn.BLACK || board[x][0] == Pawn.BLACK)) ||  // Fuga sul bordo sinistro
                       (y == 8 && (board[x][7] == Pawn.BLACK || board[x][8] == Pawn.BLACK)))) { // Fuga sul bordo destro

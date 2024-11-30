@@ -9,10 +9,6 @@ import java.io.IOException;
 import java.util.List;
 
 public abstract class ALAPlayer {
-    // private AdversarialSearch<State,Action> solver;
-    // private Action previousAction = null;
-    private double searchTime = 0.0;
-    private int movesMade = 0;
     protected State currentState;
     protected List<Action> validMoves;
     protected PrincipalVariationSearch pvs;

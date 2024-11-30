@@ -15,7 +15,7 @@ public class PrincipalVariationSearch {
     private static final float NEG_INFINITY = -INFINITY;
     private final ALAHeuristic heuristic;
     private final Game game;
-    private static final long TIME_BUFFER_MS = 2000; // 2 second buffer for safety
+    private static final long TIME_BUFFER_MS = 2000; // 2 second buffer
     private List<Action> previousPV;
 
     public PrincipalVariationSearch(Game game) {
@@ -34,7 +34,7 @@ public class PrincipalVariationSearch {
      */
     public Action findBestMove(State currentState, List<Action> validMoves, boolean isMaxPlayer){
         long startTime = System.currentTimeMillis();
-        long timeLimit = startTime + 20000; // 58 seconds (leaving 2s buffer)
+        long timeLimit = startTime + 58000; // 58 seconds (leaving 2s buffer)
         Action bestMove = validMoves.get(0);
         Action currentBestMove = bestMove;
         int currentDepth = 1;
@@ -44,37 +44,34 @@ public class PrincipalVariationSearch {
             while (System.currentTimeMillis() < timeLimit) {
                 currentBestMove = findMoveAtDepth(currentState, validMoves, isMaxPlayer, currentDepth, timeLimit);
                 if (currentBestMove != null) {
-                    bestMove = currentBestMove; // Update best move if search completed
+                    bestMove = currentBestMove;
                     //System.out.println("Completed search at depth: " + currentDepth);
                     currentDepth++;
                 } else {
-                    // Search at this depth didn't complete in time
                     //System.out.println("NOT completed search at depth: " + currentDepth);
                     return bestMove;
                 }
             }
         } catch (RuntimeException e) {
-            System.err.println("Search interrupted, using best move found so far at depth "+ currentDepth);
+            //System.err.println("Search interrupted, using best move found so far at depth "+ currentDepth);
         }
 
         long endTime = System.currentTimeMillis();
-        System.out.println("Search took " + (endTime - startTime) + "ms, reached depth " + (currentDepth - 1));
-
+        //System.out.println("Search took " + (endTime - startTime) + "ms, reached depth " + (currentDepth - 1));
         return bestMove;
     }
     private List<Action> orderMoves(State state, List<Action> moves, boolean isMaxPlayer) {
         // Store move scores for sorting
         Map<Action, Float> moveScores = new HashMap<>();
 
-        // First, evaluate all moves with a shallow evaluation
+        // shallow evaluation
         for (Action move : moves) {
             State newState = game.checkMove(state, move);
             float score = heuristic.evaluate(newState);
-            // For black, we want to minimize the score
+            // For black, minimize the score
             moveScores.put(move, isMaxPlayer ? score : -score);
         }
-        // Print scores before sorting
-        /*System.out.println("\nScores before ordering (" + (isMaxPlayer ? "MAX" : "MIN") + " player):");
+        /*System.out.println("\nScores before sorting (" + (isMaxPlayer ? "MAX" : "MIN") + " player):");
         moveScores.entrySet().forEach(entry ->
                 System.out.printf("Move: %-40s Score: %f%n", entry.getKey(), entry.getValue())
         );*/
@@ -105,13 +102,13 @@ public class PrincipalVariationSearch {
             }
         });
         // Print final ordering
-        System.out.println("\nFinal move order:");
+        /*System.out.println("\nFinal move order:");
         for (Action move : orderedMoves) {
             System.out.printf("Move: %-40s Score: %f %s\n",
                     move,
                     moveScores.get(move),
                     previousPV.contains(move) ? "(PV Move)" : "");
-        }
+        }*/
         return orderedMoves;
     }
 

@@ -9,39 +9,9 @@ public class TablutActionValidator implements ActionValidator {
     private final State state;
     private static final int THRONE_ROW = 4;
     private static final int THRONE_COL = 4;
-    /*
-    private final static boolean [][] campsTop = new boolean[9][9];
-    private final static boolean [][] campsBottom = new boolean[9][9];
-    private final static boolean [][] campsLeft = new boolean[9][9];
-    private final static boolean [][] campsRight = new boolean[9][9];
-    private final static int [] throne = new int[]{4, 4};*/
 
     public TablutActionValidator(State state) {
         this.state = state;
-        /*
-        // Top camps
-        campsTop[0][3] = true;
-        campsTop[0][4] = true;
-        campsTop[0][5] = true;
-        campsTop[1][4] = true;
-
-        // bottom camps
-        campsBottom[8][3] = true;
-        campsBottom[8][4] = true;
-        campsBottom[8][5] = true;
-        campsBottom[7][4] = true;
-
-        // left camps
-        campsLeft[3][0] = true;
-        campsLeft[4][0] = true;
-        campsLeft[5][0] = true;
-        campsLeft[4][1] = true;
-
-        // right camps
-        campsRight[3][8] = true;
-        campsRight[4][8] = true;
-        campsRight[5][8] = true;
-        campsRight[4][7] = true;*/
     }
 
     @Override
@@ -179,34 +149,6 @@ public class TablutActionValidator implements ActionValidator {
         if (!CitadelManager.canEnterCitadel(movingPiece, startRow, startColumn, endRow, endColumn)) {
             return false;
         }
-        /*
-        if (state.getPawn(startRow, startColumn).equalsPawn(State.Pawn.BLACK.toString())) {
-            if (campsBottom[endRow][endColumn]) {
-                if (!campsBottom[startRow][startColumn]) {
-                    return false;
-                }
-            } else if (campsTop[endRow][endColumn]) {
-                if (!campsTop[startRow][startColumn]) {
-                    return false;
-                }
-            } else if (campsLeft[endRow][endColumn]) {
-                if (!campsLeft[startRow][startColumn]) {
-                    return false;
-                }
-            }
-            else if (campsRight[endRow][endColumn]) {
-                if (!campsRight[startRow][startColumn]) {
-                    return false;
-                }
-            }
-        }
-        // controllo cittadelle pedina bianca e re
-        else if (state.getPawn(startRow, startColumn).equalsPawn(State.Pawn.WHITE.toString()) ||
-                state.getPawn(startRow, startColumn).equalsPawn(State.Pawn.KING.toString())) {
-            if (campsTop[endRow][endColumn] || campsBottom[endRow][endColumn] || campsLeft[endRow][endColumn] || campsRight[endRow][endColumn]) {
-                return false;
-            }
-        }*/
 
         /*------CONTROLLO PERCORSO------*/
         //fai condizioni che controllano se sto scavalcando qualsiasi cosa

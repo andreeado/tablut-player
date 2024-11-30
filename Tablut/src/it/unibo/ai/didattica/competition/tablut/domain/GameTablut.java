@@ -38,6 +38,7 @@ public class GameTablut implements Game {
 		fh = null;
 		try
 		{
+			// Create a FileHandler, but don't actually log anything
 			fh = new FileHandler(gameLogName, true);
 		}
 		catch(Exception e)
@@ -50,6 +51,7 @@ public class GameTablut implements Game {
 		this.fh.setFormatter(new SimpleFormatter());
 		loggGame.setLevel(Level.FINE);
 		loggGame.fine("Inizio partita");
+		loggGame.setLevel(Level.OFF);
 	}
 
 	/**
